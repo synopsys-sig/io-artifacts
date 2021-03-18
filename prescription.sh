@@ -74,6 +74,9 @@ function generateYML () {
         --blackduck.project.name=*) blackduck_project_name="${i#*=}" ;;
         --blackduck.url=*) blackduck_server_url="${i#*=}" ;;
         --blackduck.api.token=*) blackduck_access_token="${i#*=}" ;;
+        --coverity.url=*) coverity_server_url="${i#*=}" ;;
+        --coverity.username=*) coverity_username="${i#*=}" ;;
+        --coverity.password=*) coverity_password="${i#*=}" ;;
         --persona=*) persona="${i#*=}" ;;
         *) ;;
         esac
@@ -129,6 +132,9 @@ function generateYML () {
 	    s~<<BLACKDUCK_PROJECT_NAME>>~$blackduck_project_name~g; \
 	    s~<<BLACKDUCK_SERVER_URL>>~$blackduck_server_url~g; \
 	    s~<<BLACKDUCK_ACCESS_TOKEN>>~$blackduck_access_token~g; \
+        s~<<COVERITY_SERVER_URL>>~$coverity_server_url~g; \
+	    s~<<COVERITY_USERNAME>>~$coverity_username~g; \
+	    s~<<COVERITY_PASSWORD>>~$coverity_password~g
             s~<<IS_SAST_ENABLED>>~$is_sast_enabled~g; \
             s~<<IS_SCA_ENABLED>>~$is_sca_enabled~g; \
 	    s~<<APP_ID>>~$asset_id~g; \
