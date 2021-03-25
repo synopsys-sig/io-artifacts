@@ -235,7 +235,7 @@ function is_synopsys_config_present () {
         printf "${config_file} file does not exist\n"
         printf "Downloading default ${config_file}\n"
         if [ -z "$io_manifest_url" ]; then
-            wget https://github.com/synopsys-sig/io-artifacts/blob/${workflow_version}/io-manifest.yml
+            wget https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${workflow_version}/prescription.sh
         else
             wget "$io_manifest_url"
 	fi
