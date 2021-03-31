@@ -246,7 +246,7 @@ function is_workflow_client_jar_present () {
     if [ ! -f "WorkflowClient.jar" ]; then
         printf "WorkflowClient.jar file does not exist\n"
         printf "Downloading default WorkflowClient.jar\n"
-        wget https://sigdevsecops.blob.core.windows.net/intelligence-orchestration/${workflow_version}/WorkflowClient.jar
+        wget https://github.com/synopsys-sig/io-artifacts/releases/download/${workflow_version}/WorkflowClient.jar
     fi
 }
 
