@@ -237,7 +237,7 @@ function is_synopsys_config_present () {
         if [ -z "$io_manifest_url" ]; then
             wget https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${workflow_version}/io-manifest.yml
         else
-            wget "$io_manifest_url"
+            wget "$io_manifest_url" -O $config_file
 	fi
     fi
 }
