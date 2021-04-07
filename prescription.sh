@@ -110,6 +110,10 @@ function generateYML () {
         sca_rescan_threshold=10
     fi
 
+    if [ -z "$persona" ]; then
+        persona="developer"
+    fi
+
     synopsys_io_manifest=$(cat io-manifest.yml |
         sed " s~<<SLACK_CHANNEL_ID>>~$slack_channel_id~g; \
 	    s~<<SLACK_TOKEN>>~$slack_token~g; \
