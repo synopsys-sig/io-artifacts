@@ -12,6 +12,7 @@ run() {
         case "$i" in
         --stage=*) stage="${i#*=}" ;;
         --workflow.version=*) workflow_version="${i#*=}" ;;
+	  --release.type=*) release_type="${i#*=}" ;;
         *) ;;
         esac
     done
@@ -25,6 +26,9 @@ run() {
     generateYML "${ARGS[@]}"
     
     if [[ "${stage}" == "IO" ]]; then
+    	if [ "${release_type^^}" != "MAJOR" -a "${release_type^^}" != "MINOR" ]; then
+		exit_program("Error: Invalid release given as input, Accepted values are [MAJOR, MINOR]");
+	fi
         getIOPrescription "${ARGS[@]}"
     elif [[ "${stage}" == "WORKFLOW" ]]; then
         loadWorkflow "${ARGS[@]}"
