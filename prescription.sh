@@ -12,7 +12,7 @@ run() {
         case "$i" in
         --stage=*) stage="${i#*=}" ;;
         --workflow.version=*) workflow_version="${i#*=}" ;;
-	--release.type=*) release_type="${i#*=}" ;;
+	  --release.type=*) release_type="${i#*=}" ;;
         *) ;;
         esac
     done
