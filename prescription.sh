@@ -103,11 +103,11 @@ function generateYML () {
     if [[ "${stage}" == "IO" ]]; then
 	release_type_from_yml=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["release"]' $config_file)
 	if [[ "${release_type_from_yml}" == "<<RELEASE_TYPE>>" ]]; then
-		if [ "${release_type^^}" != "MAJOR" -a "${release_type^^}" != "MINOR" ]; then
-			exit_program "Error: Invalid release type given as input, Accepted values are [MAJOR, MINOR]"
+		if [ "${release_type}" != "major" -a "${release_type}" != "minor" ]; then
+			exit_program "Error: Invalid release type given as input, Accepted values are [major, minor]"
 		fi
-	elif [ "${release_type_from_yml^^}" != "MAJOR" -a "${release_type_from_yml^^}" != "MINOR" ]; then
-		exit_program "Error: Invalid release type given as input, Accepted values are [MAJOR, MINOR]"
+	elif [ "${release_type_from_yml}" != "major" -a "${release_type_from_yml}" != "minor" ]; then
+		exit_program "Error: Invalid release type given as input, Accepted values are [major, minor]"
 	fi
     fi
      
