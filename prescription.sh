@@ -72,6 +72,8 @@ function generateYML () {
         --github.commit.id=*) github_commit_id="${i#*=}" ;;
         --github.username=*) github_username="${i#*=}" ;;
         --github.token=*) github_access_token="${i#*=}" ;;
+        --gitlab.url=*) gitlab_host_url="${i#*=}" ;;
+        --gitlab.token=*) gitlab_token="${i#*=}" ;;
         --IS_SAST_ENABLED=*) is_sast_enabled="${i#*=}" ;;             #polaris
         --polaris.project.name=*) polaris_project_name="${i#*=}" ;;
         --polaris.url=*) polaris_server_url="${i#*=}" ;;
@@ -132,6 +134,8 @@ function generateYML () {
 	    s~<<GITHUB_COMMIT_ID>>~$github_commit_id~g; \
 	    s~<<GITHUB_USERNAME>>~$github_username~g; \
 	    s~<<GITHUB_ACCESS_TOKEN>>~$github_access_token~g; \
+	    s~<<GITLAB_HOST_URL>>~$gitlab_host_url~g; \
+	    s~<<GITLAB_TOKEN>>~$gitlab_token~g; \
 	    s~<<POLARIS_PROJECT_NAME>>~$polaris_project_name~g; \
 	    s~<<POLARIS_SERVER_URL>>~$polaris_server_url~g; \
 	    s~<<POLARIS_ACCESS_TOKEN>>~$polaris_access_token~g; \
