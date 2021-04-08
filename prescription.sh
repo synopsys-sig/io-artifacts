@@ -12,7 +12,6 @@ run() {
         case "$i" in
         --stage=*) stage="${i#*=}" ;;
         --workflow.version=*) workflow_version="${i#*=}" ;;
-	--release.type=*) release_type="${i#*=}" ;;
         *) ;;
         esac
     done
@@ -26,9 +25,6 @@ run() {
     generateYML "${ARGS[@]}"
     
     if [[ "${stage}" == "IO" ]]; then
-    	if [ "${release_type^^}" != "MAJOR" -a "${release_type^^}" != "MINOR" ]; then
-		exit_program("Error: Invalid release given as input, Accepted values are [MAJOR, MINOR]");
-	fi
         getIOPrescription "${ARGS[@]}"
     elif [[ "${stage}" == "WORKFLOW" ]]; then
         loadWorkflow "${ARGS[@]}"
@@ -104,6 +100,17 @@ function generateYML () {
         asset_id=${asset_id_from_yml}
     fi
     
+    if [[ "${stage}" == "IO" ]]; then
+	release_type_from_yml=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["release"]' $config_file)
+	if [[ "${release_type_from_yml}" == "<<RELEASE_TYPE>>" ]]; then
+		if [ "${release_type^^}" != "MAJOR" -a "${release_type^^}" != "MINOR" ]; then
+			exit_program "Error: Invalid release type given as input, Accepted values are [MAJOR, MINOR]"
+		fi
+	elif [ "${release_type_from_yml^^}" != "MAJOR" -a "${release_type_from_yml^^}" != "MINOR" ]; then
+		exit_program "Error: Invalid release type given as input, Accepted values are [MAJOR, MINOR]"
+	fi
+    fi
+     
     if [ -z "$file_change_threshold" ]; then
         file_change_threshold=20
     fi
