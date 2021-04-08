@@ -26,7 +26,7 @@ run() {
     generateYML "${ARGS[@]}"
     
     if [[ "${stage}" == "IO" ]]; then
-    	if [[ "${release_type^^}" != "MAJOR" -a "${release_type^^}" != "MINOR" ]]; then
+    	if [ "${release_type^^}" != "MAJOR" -a "${release_type^^}" != "MINOR" ]; then
 		exit_program("Error: Invalid release given as input, Accepted values are [MAJOR, MINOR]");
 	fi
         getIOPrescription "${ARGS[@]}"
