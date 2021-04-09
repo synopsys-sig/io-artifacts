@@ -254,7 +254,7 @@ function is_synopsys_config_present () {
         printf "${config_file} file does not exist\n"
         printf "Downloading default ${config_file}\n"
         if [ -z "$io_manifest_url" ]; then
-            wget https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${workflow_version}/io-manifest.yml
+            wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${workflow_version}/io-manifest.yml"
         else
             wget "$io_manifest_url" -O $config_file
 	fi
@@ -265,7 +265,7 @@ function is_workflow_client_jar_present () {
     if [ ! -f "WorkflowClient.jar" ]; then
         printf "WorkflowClient.jar file does not exist\n"
         printf "Downloading default WorkflowClient.jar\n"
-        wget https://github.com/synopsys-sig/io-artifacts/releases/download/${workflow_version}/WorkflowClient.jar
+        wget "https://github.com/synopsys-sig/io-artifacts/releases/download/${workflow_version}/WorkflowClient.jar"
     fi
 }
 
