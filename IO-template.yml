@@ -1,0 +1,103 @@
+# Copyright (c) 2021 Synopsys, Inc. All rights reserved worldwide.
+
+variables:  
+  ASSET_ID: $CI_PROJECT_PATH
+  WORKFLOW_ENGINE_VERSION: "v0.11-alpha"
+  POLARIS_PROJECT_NAME: $CI_PROJECT_NAME
+  BLACKDUCK_PROJECT_NAME: $CI_PROJECT_NAME:$BLACKDUCK_PROJECT_VERSION 
+  SCM_OWNER: $GITLAB_USER_LOGIN
+  SCM_REPO_NAME: $CI_PROJECT_NAME
+  SCM_BRANCH_NAME : $CI_COMMIT_BRANCH
+  GITLAB_HOST_URL: $CI_SERVER_URL
+  IS_SAST_ENABLED: "false"
+  IS_SCA_ENABLED: "false"
+    
+IO:
+   stage: io
+   artifacts:
+     untracked: false
+     reports:
+       dotenv: scans.env
+   script:
+       - >
+           if [ ! -f 'prescription.sh' ]; then
+            wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
+           fi  
+       - sed -i -e 's/\r$//' prescription.sh
+       - chmod +x prescription.sh 
+       - ./prescription.sh 
+        --stage="IO" 
+        --persona=$PERSONA 
+        --io.url=$IO_SERVER_URL 
+        --io.token=$IO_ACCESS_TOKEN 
+        --io.manifest.url=$IO_MANIFEST_URL
+        --asset.id=$ASSET_ID 
+        --release.type=$RELEASE_TYPE 
+        --sensitive.package.pattern=$SENSITIVE_PACKAGE_PATTERN 
+        --scm.type="gitlab" 
+        --workflow.url=$WORKFLOW_ENGINE_SERVER_URL 
+        --workflow.version=$WORKFLOW_ENGINE_VERSION 
+        --polaris.project.name=$POLARIS_PROJECT_NAME 
+        --polaris.url=$POLARIS_SERVER_URL 
+        --polaris.token=$POLARIS_ACCESS_TOKEN 
+        --blackduck.project.name="$BLACKDUCK_PROJECT_NAME" 
+        --blackduck.url=$BLACKDUCK_SERVER_URL 
+        --blackduck.api.token=$BLACKDUCK_ACCESS_TOKEN 
+        --scm.owner=$SCM_OWNER 
+        --scm.repo.name=$SCM_REPO_NAME 
+        --scm.branch.name=$SCM_BRANCH_NAME 
+        --gitlab.url=$GITLAB_HOST_URL 
+        --gitlab.token=$GITLAB_TOKEN 
+        --coverity.url=$COVERITY_SERVER_URL 
+        --coverity.username=$COVERITY_USERNAME 
+        --coverity.password=$COVERITY_PASSWORD
+       - IS_SAST_ENABLED=$(ruby -rjson -e 'j = JSON.parse(File.read("result.json")); puts j["security"]["activities"]["sast"]["enabled"]')
+       - IS_SCA_ENABLED=$(ruby -rjson -e 'j = JSON.parse(File.read("result.json")); puts j["security"]["activities"]["sca"]["enabled"]')
+       - echo "IS_SAST_ENABLED=${IS_SAST_ENABLED}" >> scans.env
+       - echo "IS_SCA_ENABLED=${IS_SCA_ENABLED}" >> scans.env
+       - echo "Is SAST Enabled - ${IS_SAST_ENABLED}"
+       - echo "Is SCA Enabled - ${IS_SCA_ENABLED}"
+
+        
+IO_WORKFLOWENGINE:
+   stage: workflowengine
+   artifacts:
+        paths:
+            - $CI_PROJECT_DIR/*.sarif.json
+   script:
+       - >
+           if [ ! -f 'prescription.sh' ]; then
+            wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
+           fi  
+       - sed -i -e 's/\r$//' prescription.sh
+       - chmod +x prescription.sh 
+       - ./prescription.sh 
+        --stage="WORKFLOW" 
+        --persona=$PERSONA 
+        --io.url=$IO_SERVER_URL 
+        --io.token=$IO_ACCESS_TOKEN 
+        --io.manifest.url=$IO_MANIFEST_URL 
+        --asset.id=$ASSET_ID 
+        --workflow.url=$WORKFLOW_ENGINE_SERVER_URL 
+        --workflow.version=$WORKFLOW_ENGINE_VERSION 
+        --polaris.project.name=$POLARIS_PROJECT_NAME 
+        --polaris.url=$POLARIS_SERVER_URL 
+        --polaris.token=$POLARIS_ACCESS_TOKEN 
+        --blackduck.project.name="$BLACKDUCK_PROJECT_NAME" 
+        --blackduck.url=$BLACKDUCK_SERVER_URL 
+        --blackduck.api.token=$BLACKDUCK_ACCESS_TOKEN 
+        --jira.api.url=$JIRA_URL 
+        --jira.project.name=$JIRA_PROJECT_KEY 
+        --jira.issues.query=$JIRA_ISSUES_QUERY 
+        --jira.username=$JIRA_USERNAME 
+        --jira.auth.token=$JIRA_AUTH_TOKEN 
+        --jira.assignee=$JIRA_ASSIGNEE 
+        --IS_SAST_ENABLED=$IS_SAST_ENABLED 
+        --IS_SCA_ENABLED=$IS_SCA_ENABLED 
+        --slack.channel.id=$SLACK_CHANNEL_ID 
+        --slack.token=$SLACK_TOKEN 
+        --coverity.url=$COVERITY_SERVER_URL 
+        --coverity.username=$COVERITY_USERNAME 
+        --coverity.password=$COVERITY_PASSWORD
+       - echo "Triggering WorkFlowEngine "
+       - java -jar WorkflowClient.jar --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.yml
