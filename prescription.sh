@@ -3,7 +3,7 @@
 # Copyright (c) 2021 Synopsys, Inc. All rights reserved worldwide.
 
 run() {
-    box_line "Synopsys Intelligent Security Scan" "Copyright 2016-2020 Synopsys, Inc. All rights reserved worldwide."
+    box_line "Synopsys Intelligent Security Scan" "Copyright 2020-2021 Synopsys, Inc. All rights reserved worldwide."
     allargs="${ARGS[@]}"
     
     config_file="io-manifest.yml"
