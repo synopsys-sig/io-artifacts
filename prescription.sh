@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Copyright (c) 2021 Synopsys, Inc. All rights reserved worldwide.
+
 run() {
     box_line "Synopsys Intelligent Security Scan" "Copyright 2020-2021 Synopsys, Inc. All rights reserved worldwide."
     allargs="${ARGS[@]}"

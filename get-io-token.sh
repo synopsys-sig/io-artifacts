@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Copyright (c) 2021 Synopsys, Inc. All rights reserved worldwide.
+
 for i in "$@"; do
     case "$i" in
     --io.url=*) io_url="${i#*=}" ;;
