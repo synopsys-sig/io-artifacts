@@ -1,5 +1,3 @@
-# Copyright (c) 2021 Synopsys, Inc. All rights reserved worldwide.
-
 application:
   appId: <<APP_ID>>
   assetId: <<ASSET_ID>>
@@ -9,7 +7,7 @@ application:
   projectLanguage: Java
   platformVersion: Java 8
   buildSystem: Maven
-  riskMatrixRevision: default
+  riskMatrixRevision: Rev1.0
   sourceFilePattern: .*\+\+\+.*(\.java|\.jsp)+.*
   sensitivePackagePattern: <<SENSITIVE_PACKAGE_PATTERN>>
   fileChangeThreshold: <<FILE_CHANGE_THRESHOLD>>
@@ -88,6 +86,10 @@ buildbreaker:
     severity: medium
 # for WF client
 tool_information:
+- tool_name: coverity
+  enabled: false
+  fields:
+    file_path: coverity-results.json
 - tool_name: polaris
   enabled: <<IS_SAST_ENABLED>>
   fields:
@@ -100,3 +102,9 @@ tool_information:
     project_name: <<BLACKDUCK_PROJECT_NAME>>
     instance_url: <<BLACKDUCK_SERVER_URL>>
     auth_token: <<BLACKDUCK_ACCESS_TOKEN>>
+- tool_name: seeker
+  enabled: <<IS_DAST_ENABLED>>
+  fields:
+    project_name: <<SEEKER_PROJECT_NAME>>
+    instance_url: <<SEEKER_SERVER_URL>>
+    auth_token: <<SEEKER_ACCESS_TOKEN>>
