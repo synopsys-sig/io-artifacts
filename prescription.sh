@@ -198,7 +198,7 @@ function generateYML () {
 	    s~<<COVERITY_SERVER_URL>>~$coverity_server_url~g; \
 	    s~<<COVERITY_USERNAME>>~$coverity_username~g; \
 	    s~<<COVERITY_PASSWORD>>~$coverity_password~g; \
-        s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
+            s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
 	    s~<<SEEKER_SERVER_URL>>~$seeker_server_url~g; \
 	    s~<<SEEKER_ACCESS_TOKEN>>~$seeker_access_token~g; \
 	    s~\"<<IS_SAST_ENABLED>>\"~$is_sast_enabled~g; \
@@ -247,7 +247,7 @@ function generateYML () {
 	    s~<<COVERITY_SERVER_URL>>~$coverity_server_url~g; \
 	    s~<<COVERITY_USERNAME>>~$coverity_username~g; \
 	    s~<<COVERITY_PASSWORD>>~$coverity_password~g; \
-        s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
+            s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
 	    s~<<SEEKER_SERVER_URL>>~$seeker_server_url~g; \
 	    s~<<SEEKER_ACCESS_TOKEN>>~$seeker_access_token~g; \
 	    s~<<IS_SAST_ENABLED>>~$is_sast_enabled~g; \
