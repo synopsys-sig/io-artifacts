@@ -92,6 +92,9 @@ tool_information:
   enabled: false
   fields:
     file_path: coverity-results.json
+    instance_url: <<COVERITY_SERVER_URL>>
+    username: <<COVERITY_USERNAME>>
+    password: <<COVERITY_PASSWORD>>
 - tool_name: polaris
   enabled: <<IS_SAST_ENABLED>>
   fields:

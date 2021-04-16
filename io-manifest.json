@@ -128,7 +128,10 @@
          "tool_name": "coverity",
          "enabled": false,
          "fields": {
-            "file_path": "coverity-results.json"
+            "file_path": "coverity-results.json",
+			"instance_url": "<<COVERITY_SERVER_URL>>",
+			"username": "<<COVERITY_USERNAME>>",
+			"password": "<<COVERITY_PASSWORD>>"
          }
       },
       {
