@@ -90,7 +90,7 @@ function generateYML () {
         --coverity.url=*) coverity_server_url="${i#*=}" ;;				#coverity
         --coverity.username=*) coverity_username="${i#*=}" ;;
         --coverity.password=*) coverity_password="${i#*=}" ;;
-		--IS_DAST_ENABLED=*) is_dast_enabled="${i#*=}" ;;                 #seeker
+        --IS_DAST_ENABLED=*) is_dast_enabled="${i#*=}" ;;                 #seeker
         --seeker.project.name=*) seeker_project_name="${i#*=}" ;;
         --seeker.url=*) seeker_server_url="${i#*=}" ;;
         --seeker.token=*) seeker_access_token="${i#*=}" ;;
@@ -198,7 +198,7 @@ function generateYML () {
 	    s~<<COVERITY_SERVER_URL>>~$coverity_server_url~g; \
 	    s~<<COVERITY_USERNAME>>~$coverity_username~g; \
 	    s~<<COVERITY_PASSWORD>>~$coverity_password~g; \
-		s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
+        s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
 	    s~<<SEEKER_SERVER_URL>>~$seeker_server_url~g; \
 	    s~<<SEEKER_ACCESS_TOKEN>>~$seeker_access_token~g; \
 	    s~\"<<IS_SAST_ENABLED>>\"~$is_sast_enabled~g; \
@@ -247,7 +247,7 @@ function generateYML () {
 	    s~<<COVERITY_SERVER_URL>>~$coverity_server_url~g; \
 	    s~<<COVERITY_USERNAME>>~$coverity_username~g; \
 	    s~<<COVERITY_PASSWORD>>~$coverity_password~g; \
-		s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
+        s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
 	    s~<<SEEKER_SERVER_URL>>~$seeker_server_url~g; \
 	    s~<<SEEKER_ACCESS_TOKEN>>~$seeker_access_token~g; \
 	    s~<<IS_SAST_ENABLED>>~$is_sast_enabled~g; \
