@@ -360,8 +360,8 @@ function validate_values () {
 
 function is_synopsys_config_present () {
     if [ ! -f "$config_file" ]; then
-        printf "%s file does not exist\n", "${config_file}"
-        printf "Downloading default %s\n", "${config_file}"
+        printf "${config_file} file does not exist\n"
+        printf "Downloading default ${config_file}\n"
         if [ -z "$io_manifest_url" ]; then
             wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${workflow_version}/${config_file}"
         else
