@@ -23,7 +23,7 @@ IO:
    script:
        - >
            if [ ! -f 'prescription.sh' ]; then
-            wget "https://sigdevsecops.blob.core.windows.net/intelligence-orchestration/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
+            wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
            fi  
        - sed -i -e 's/\r$//' prescription.sh
        - chmod +x prescription.sh 
@@ -73,7 +73,7 @@ IO_WORKFLOWENGINE:
    script:
        - >
            if [ ! -f 'prescription.sh' ]; then
-            wget "https://sigdevsecops.blob.core.windows.net/intelligence-orchestration/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
+            wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
            fi  
        - sed -i -e 's/\r$//' prescription.sh
        - chmod +x prescription.sh 
