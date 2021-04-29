@@ -19,10 +19,8 @@ IO:
      reports:
        dotenv: scans.env
    script:
-       - >
-           if [ ! -f 'prescription.sh' ]; then
-            wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
-           fi  
+       - rm -rf prescription.sh
+       - wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
        - sed -i -e 's/\r$//' prescription.sh
        - chmod +x prescription.sh 
        - ./prescription.sh 
@@ -57,6 +55,7 @@ IO:
        - echo "IS_SCA_ENABLED=${IS_SCA_ENABLED}" >> scans.env
        - echo "Is SAST Enabled - ${IS_SAST_ENABLED}"
        - echo "Is SCA Enabled - ${IS_SCA_ENABLED}"
+       - rm -rf synopsys-io.yml
 
         
 IO_WORKFLOWENGINE:
@@ -101,3 +100,4 @@ IO_WORKFLOWENGINE:
         --coverity.password=$COVERITY_PASSWORD
        - echo "Triggering WorkFlowEngine "
        - java -jar WorkflowClient.jar --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.yml
+       - rm -rf synopsys-io.yml
