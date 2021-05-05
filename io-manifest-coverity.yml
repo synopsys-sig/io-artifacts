@@ -9,7 +9,7 @@ application:
   projectLanguage: Java
   platformVersion: Java 8
   buildSystem: Maven
-  riskMatrixRevision: default
+  riskMatrixRevision: Rev1.0
   sourceFilePattern: .*\+\+\+.*(\.java|\.jsp)+.*
   sensitivePackagePattern: <<SENSITIVE_PACKAGE_PATTERN>>
   fileChangeThreshold: <<FILE_CHANGE_THRESHOLD>>
@@ -107,3 +107,9 @@ tool_information:
     project_name: <<BLACKDUCK_PROJECT_NAME>>
     instance_url: <<BLACKDUCK_SERVER_URL>>
     auth_token: <<BLACKDUCK_ACCESS_TOKEN>>
+- tool_name: seeker
+  enabled: <<IS_DAST_ENABLED>>
+  fields:
+    project_name: <<SEEKER_PROJECT_NAME>>
+    instance_url: <<SEEKER_SERVER_URL>>
+    auth_token: <<SEEKER_ACCESS_TOKEN>>
