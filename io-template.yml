@@ -62,6 +62,7 @@ IO:
        - echo "Is SAST Enabled - ${IS_SAST_ENABLED}"
        - echo "Is SCA Enabled - ${IS_SCA_ENABLED}"
        - rm -rf synopsys-io.yml
+       - rm -rf synopsys-io.json
 
         
 IO_WORKFLOWENGINE:
@@ -113,4 +114,5 @@ IO_WORKFLOWENGINE:
            elif [ $MANIFEST_TYPE == "json" ]; then
              java -jar WorkflowClient.jar --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.json
            fi 
-       - rm -rf synopsys-io.yml  
+       - rm -rf synopsys-io.yml
+       - rm -rf synopsys-io.json
