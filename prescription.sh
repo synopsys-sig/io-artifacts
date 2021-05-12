@@ -348,6 +348,10 @@ function getIOPrescription() {
     prescrip=$(curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -H "${header}" -d @data.json ${io_url}/io/api/manifest/${API})
     echo $prescrip
     echo $prescrip >result.json
+    if [[ $(jq -r '.status' result.json) == 401 ]]; then
+    	exit_program "Error: API /io/api/manifest/${API} returned 401"
+    fi
+
 }
 
 function validate_values () {
