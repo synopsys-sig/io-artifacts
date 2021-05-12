@@ -351,7 +351,6 @@ function getIOPrescription() {
     if [[ $(jq -r '.status' result.json) == 401 ]]; then
     	exit_program "Error: API /io/api/manifest/${API} returned 401"
     fi
-
 }
 
 function validate_values () {
