@@ -58,7 +58,7 @@ function generateYML () {
         --slack.channel.id=*) slack_channel_id="${i#*=}" ;;    #slack
         --slack.token=*) slack_token="${i#*=}" ;;
         --jira.enable=*) enable_jira="${i#*=}" ;;    #jira
-		--jira.project.name=*) jira_project_name="${i#*=}" ;;    
+        --jira.project.name=*) jira_project_name="${i#*=}" ;;    
         --jira.assignee=*) jira_assignee="${i#*=}" ;;
         --jira.api.url=*) jira_api_url="${i#*=}" ;;
         --jira.issues.query=*) jira_issues_query="${i#*=}" ;;
@@ -119,7 +119,7 @@ function generateYML () {
         sca_rescan_threshold=10
     fi
 	
-	if [ -z "$enable_jira" ]; then
+    if [ -z "$enable_jira" ]; then
         enable_jira=false
     fi
 	
