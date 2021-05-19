@@ -27,7 +27,7 @@
       "gitlabHostUrl": "<<GITLAB_HOST_URL>>",
       "gitlabToken": "<<GITLAB_TOKEN>>",
       "enableJira": "<<ENABLE_JIRA>>",
-	  "jiraProjectName": "<<JIRA_PROJECT_NAME>>",
+      "jiraProjectName": "<<JIRA_PROJECT_NAME>>",
       "jiraIssuesQuery": "<<JIRA_ISSUES_QUERY>>",
       "jiraApiUrl": "<<JIRA_API_URL>>",
       "jiraUserName": "<<JIRA_USERNAME>>",
