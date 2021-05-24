@@ -216,6 +216,7 @@ function generateYML () {
 	    s~\"<<FILE_CHANGE_THRESHOLD>>\"~$file_change_threshold~g; \
 	    s~\"<<SAST_RESCAN_THRESHOLD>>\"~$sast_rescan_threshold~g; \
 	    s~\"<<SCA_RESCAN_THRESHOLD>>\"~$sca_rescan_threshold~g; \
+	    s~\"<<ENABLE_JIRA>>\"~$enable_jira~g; \
 	    s~<<SCM_TYPE>>~$scm_type~g; \
 	    s~<<SCM_OWNER>>~$scm_owner~g; \
 	    s~<<SCM_REPO_NAME>>~$scm_repo_name~g; \
@@ -265,6 +266,7 @@ function generateYML () {
 	    s~<<FILE_CHANGE_THRESHOLD>>~$file_change_threshold~g; \
 	    s~<<SAST_RESCAN_THRESHOLD>>~$sast_rescan_threshold~g; \
 	    s~<<SCA_RESCAN_THRESHOLD>>~$sca_rescan_threshold~g; \
+	    s~<<ENABLE_JIRA>>~$enable_jira~g; \
 	    s~<<SCM_TYPE>>~$scm_type~g; \
 	    s~<<SCM_OWNER>>~$scm_owner~g; \
 	    s~<<SCM_REPO_NAME>>~$scm_repo_name~g; \
