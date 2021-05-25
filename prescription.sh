@@ -57,7 +57,8 @@ function generateYML () {
         --asset.id=*) asset_id="${i#*=}" ;;
         --slack.channel.id=*) slack_channel_id="${i#*=}" ;;    #slack
         --slack.token=*) slack_token="${i#*=}" ;;
-        --jira.project.name=*) jira_project_name="${i#*=}" ;;    #jira
+        --jira.enable=*) enable_jira="${i#*=}" ;;    #jira
+        --jira.project.name=*) jira_project_name="${i#*=}" ;;    
         --jira.assignee=*) jira_assignee="${i#*=}" ;;
         --jira.api.url=*) jira_api_url="${i#*=}" ;;
         --jira.issues.query=*) jira_issues_query="${i#*=}" ;;
@@ -116,6 +117,10 @@ function generateYML () {
     
     if [ -z "$sca_rescan_threshold" ]; then
         sca_rescan_threshold=10
+    fi
+	
+    if [ -z "$enable_jira" ]; then
+        enable_jira=false
     fi
 	
     if [ -z "$persona" ]; then
@@ -211,6 +216,7 @@ function generateYML () {
 	    s~\"<<FILE_CHANGE_THRESHOLD>>\"~$file_change_threshold~g; \
 	    s~\"<<SAST_RESCAN_THRESHOLD>>\"~$sast_rescan_threshold~g; \
 	    s~\"<<SCA_RESCAN_THRESHOLD>>\"~$sca_rescan_threshold~g; \
+	    s~\"<<ENABLE_JIRA>>\"~$enable_jira~g; \
 	    s~<<SCM_TYPE>>~$scm_type~g; \
 	    s~<<SCM_OWNER>>~$scm_owner~g; \
 	    s~<<SCM_REPO_NAME>>~$scm_repo_name~g; \
@@ -260,6 +266,7 @@ function generateYML () {
 	    s~<<FILE_CHANGE_THRESHOLD>>~$file_change_threshold~g; \
 	    s~<<SAST_RESCAN_THRESHOLD>>~$sast_rescan_threshold~g; \
 	    s~<<SCA_RESCAN_THRESHOLD>>~$sca_rescan_threshold~g; \
+	    s~<<ENABLE_JIRA>>~$enable_jira~g; \
 	    s~<<SCM_TYPE>>~$scm_type~g; \
 	    s~<<SCM_OWNER>>~$scm_owner~g; \
 	    s~<<SCM_REPO_NAME>>~$scm_repo_name~g; \
