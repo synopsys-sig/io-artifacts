@@ -115,7 +115,7 @@ IO_WORKFLOWENGINE:
         --coverity.url=$COVERITY_SERVER_URL 
         --coverity.username=$COVERITY_USERNAME 
         --coverity.password=$COVERITY_PASSWORD 
-         ${ADDITIONALARGS}
+        ${ADDITIONALARGS}
        - echo "Triggering WorkFlowEngine "
        - >
            if [ $MANIFEST_TYPE == "yml" ]; then
