@@ -51,10 +51,18 @@ IO:
         --gitlab.token=$GITLAB_TOKEN 
         --coverity.url=$COVERITY_SERVER_URL 
         --coverity.username=$COVERITY_USERNAME 
-        --coverity.password=$COVERITY_PASSWORD
+        --coverity.password=$COVERITY_PASSWORD 
+        --jira.api.url=$JIRA_URL 
+        --jira.project.name=$JIRA_PROJECT_KEY 
+        --jira.issues.query=$JIRA_ISSUES_QUERY 
+        --jira.username=$JIRA_USERNAME 
+        --jira.auth.token=$JIRA_AUTH_TOKEN 
+        --jira.assignee=$JIRA_ASSIGNEE 
+        --jira.enable=$ENABLE_JIRA 
         --IS_SAST_ENABLED=$IS_SAST_ENABLED 
-        --IS_SCA_ENABLED=$IS_SCA_ENABLED
-        --IS_DAST_ENABLED=$IS_DAST_ENABLED
+        --IS_SCA_ENABLED=$IS_SCA_ENABLED 
+        --IS_DAST_ENABLED=$IS_DAST_ENABLED 
+        ${ADDITIONALARGS}
        - IS_SAST_ENABLED=$(jq -r '.security.activities.sast.enabled' result.json)
        - IS_SCA_ENABLED=$(jq -r '.security.activities.sca.enabled' result.json)
        - echo "IS_SAST_ENABLED=${IS_SAST_ENABLED}" >> scans.env
@@ -99,6 +107,7 @@ IO_WORKFLOWENGINE:
         --jira.username=$JIRA_USERNAME 
         --jira.auth.token=$JIRA_AUTH_TOKEN 
         --jira.assignee=$JIRA_ASSIGNEE 
+        --jira.enable=$ENABLE_JIRA 
         --IS_SAST_ENABLED=$IS_SAST_ENABLED 
         --IS_SCA_ENABLED=$IS_SCA_ENABLED
         --IS_DAST_ENABLED=$IS_DAST_ENABLED 
@@ -106,7 +115,8 @@ IO_WORKFLOWENGINE:
         --slack.token=$SLACK_TOKEN 
         --coverity.url=$COVERITY_SERVER_URL 
         --coverity.username=$COVERITY_USERNAME 
-        --coverity.password=$COVERITY_PASSWORD
+        --coverity.password=$COVERITY_PASSWORD 
+        ${ADDITIONALARGS}
        - echo "Triggering WorkFlowEngine "
        - >
            if [ $MANIFEST_TYPE == "yml" ]; then
