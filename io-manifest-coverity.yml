@@ -51,6 +51,12 @@ connectors:
     url: <<JIRA_API_URL>>
     username: <<JIRA_USERNAME>>
     authtoken: <<JIRA_AUTH_TOKEN>>
+- connector_name: rally
+  fields:
+    projectkey: <<RALLY_PROJECT_NAME>>
+    assignee: <<RALLY_ASSIGNEE>>
+    url: <<RALLY_API_URL>>
+    authtoken: <<RALLY_AUTH_TOKEN>>
 - connector_name: bitbucket
   fields:
     workspace_name: <<SCM_OWNER>>

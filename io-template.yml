@@ -58,7 +58,7 @@ IO:
         --jira.username=$JIRA_USERNAME 
         --jira.auth.token=$JIRA_AUTH_TOKEN 
         --jira.assignee=$JIRA_ASSIGNEE 
-        --jira.enable=$ENABLE_JIRA 
+        --jira.enable=$ENABLE_JIRA  
         --IS_SAST_ENABLED=$IS_SAST_ENABLED 
         --IS_SCA_ENABLED=$IS_SCA_ENABLED 
         --IS_DAST_ENABLED=$IS_DAST_ENABLED 
@@ -108,6 +108,10 @@ IO_WORKFLOWENGINE:
         --jira.auth.token=$JIRA_AUTH_TOKEN 
         --jira.assignee=$JIRA_ASSIGNEE 
         --jira.enable=$ENABLE_JIRA 
+        --rally.api.url=$RALLY_URL 
+        --rally.project.name=$RALLY_PROJECT_KEY
+        --rally.assignee=$RALLY_ASSIGNEE 
+        --rally.auth.token=$RALLY_AUTH_TOKEN
         --IS_SAST_ENABLED=$IS_SAST_ENABLED 
         --IS_SCA_ENABLED=$IS_SCA_ENABLED
         --IS_DAST_ENABLED=$IS_DAST_ENABLED 
