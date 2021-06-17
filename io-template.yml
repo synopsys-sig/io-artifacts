@@ -58,7 +58,7 @@ IO:
         --jira.username=$JIRA_USERNAME 
         --jira.auth.token=$JIRA_AUTH_TOKEN 
         --jira.assignee=$JIRA_ASSIGNEE 
-        --jira.enable=$ENABLE_JIRA  
+        --jira.enable=$ENABLE_JIRA 
         --IS_SAST_ENABLED=$IS_SAST_ENABLED 
         --IS_SCA_ENABLED=$IS_SCA_ENABLED 
         --IS_DAST_ENABLED=$IS_DAST_ENABLED 
