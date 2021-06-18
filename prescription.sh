@@ -64,6 +64,10 @@ function generateYML () {
         --jira.issues.query=*) jira_issues_query="${i#*=}" ;;
         --jira.username=*) jira_username="${i#*=}" ;;
         --jira.auth.token=*) jira_auth_token="${i#*=}" ;;
+        --rally.project.name=*) rally_project_name="${i#*=}" ;;    #rally
+        --rally.assignee=*) rally_assignee="${i#*=}" ;;
+        --rally.api.url=*) rally_api_url="${i#*=}" ;;
+        --rally.auth.token=*) rally_auth_token="${i#*=}" ;;
         --scm.type=*) scm_type="${i#*=}" ;;    #scm
         --scm.owner=*) scm_owner="${i#*=}" ;;
         --scm.repo.name=*) scm_repo_name="${i#*=}" ;;
@@ -183,6 +187,10 @@ function generateYML () {
 	    s~<<JIRA_ISSUES_QUERY>>~$jira_issues_query~g; \
 	    s~<<JIRA_USERNAME>>~$jira_username~g; \
 	    s~<<JIRA_AUTH_TOKEN>>~$jira_auth_token~g; \
+            s~<<RALLY_PROJECT_NAME>>~$rally_project_name~g; \
+	    s~<<RALLY_ASSIGNEE>>~$rally_assignee~g; \
+	    s~<<RALLY_API_URL>>~$rally_api_url~g; \
+	    s~<<RALLY_AUTH_TOKEN>>~$rally_auth_token~g; \
 	    s~<<BITBUCKET_COMMIT_ID>>~$bitbucket_commit_id~g; \
 	    s~<<BITBUCKET_USERNAME>>~$bitbucket_username~g; \
 	    s~<<BITBUCKET_PASSWORD>>~$bitbucket_password~g; \
@@ -233,6 +241,10 @@ function generateYML () {
 	    s~<<JIRA_ISSUES_QUERY>>~$jira_issues_query~g; \
 	    s~<<JIRA_USERNAME>>~$jira_username~g; \
 	    s~<<JIRA_AUTH_TOKEN>>~$jira_auth_token~g; \
+            s~<<RALLY_PROJECT_NAME>>~$rally_project_name~g; \
+            s~<<RALLY_ASSIGNEE>>~$rally_assignee~g; \
+            s~<<RALLY_API_URL>>~$rally_api_url~g; \
+            s~<<RALLY_AUTH_TOKEN>>~$rally_auth_token~g; \
 	    s~<<BITBUCKET_COMMIT_ID>>~$bitbucket_commit_id~g; \
 	    s~<<BITBUCKET_USERNAME>>~$bitbucket_username~g; \
 	    s~<<BITBUCKET_PASSWORD>>~$bitbucket_password~g; \

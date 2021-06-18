@@ -63,6 +63,15 @@
          }
       },
       {
+         "connector_name": "rally",
+         "fields": {
+            "projectkey": "<<RALLY_PROJECT_NAME>>",
+            "assignee": "<<RALLY_ASSIGNEE>>",
+            "url": "<<RALLY_API_URL>>",
+            "authtoken": "<<RALLY_AUTH_TOKEN>>"
+         }
+      },
+      {
          "connector_name": "bitbucket",
          "fields": {
             "workspace_name": "<<SCM_OWNER>>",
