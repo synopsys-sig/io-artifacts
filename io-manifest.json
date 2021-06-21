@@ -137,6 +137,7 @@
          "enabled": false,
          "fields": {
             "file_path": "coverity-results.json",
+            "stream": "<<COVERITY_STREAM>>",
             "instance_url": "<<COVERITY_SERVER_URL>>",
             "username": "<<COVERITY_USERNAME>>",
             "password": "<<COVERITY_PASSWORD>>"

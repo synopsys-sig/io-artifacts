@@ -48,10 +48,11 @@ IO:
         --scm.repo.name=$SCM_REPO_NAME 
         --scm.branch.name=$SCM_BRANCH_NAME 
         --gitlab.url=$GITLAB_HOST_URL 
-        --gitlab.token=$GITLAB_TOKEN 
-        --coverity.url=$COVERITY_SERVER_URL 
+        --gitlab.token=$GITLAB_TOKEN
+        --coverity.url=$COVERITY_SERVER_URL
+        --coverity.stream=$COVERITY_STREAM
         --coverity.username=$COVERITY_USERNAME 
-        --coverity.password=$COVERITY_PASSWORD 
+        --coverity.password=$COVERITY_PASSWORD
         --jira.api.url=$JIRA_URL 
         --jira.project.name=$JIRA_PROJECT_KEY 
         --jira.issues.query=$JIRA_ISSUES_QUERY 

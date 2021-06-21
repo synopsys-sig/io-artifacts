@@ -93,6 +93,7 @@ function generateYML () {
         --blackduck.url=*) blackduck_server_url="${i#*=}" ;;
         --blackduck.api.token=*) blackduck_access_token="${i#*=}" ;;
         --coverity.url=*) coverity_server_url="${i#*=}" ;;				#coverity
+        --coverity.stream=*) coverity_stream="${i#*=}" ;;
         --coverity.username=*) coverity_username="${i#*=}" ;;
         --coverity.password=*) coverity_password="${i#*=}" ;;
         --IS_DAST_ENABLED=*) is_dast_enabled="${i#*=}" ;;                 #seeker
@@ -209,6 +210,7 @@ function generateYML () {
 	    s~<<BLACKDUCK_SERVER_URL>>~$blackduck_server_url~g; \
 	    s~<<BLACKDUCK_ACCESS_TOKEN>>~$blackduck_access_token~g; \
 	    s~<<COVERITY_SERVER_URL>>~$coverity_server_url~g; \
+	    s~<<COVERITY_STREAM>>~$coverity_stream~g; \
 	    s~<<COVERITY_USERNAME>>~$coverity_username~g; \
 	    s~<<COVERITY_PASSWORD>>~$coverity_password~g; \
             s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
@@ -263,6 +265,7 @@ function generateYML () {
 	    s~<<BLACKDUCK_SERVER_URL>>~$blackduck_server_url~g; \
 	    s~<<BLACKDUCK_ACCESS_TOKEN>>~$blackduck_access_token~g; \
 	    s~<<COVERITY_SERVER_URL>>~$coverity_server_url~g; \
+	    s~<<COVERITY_STREAM>>~$coverity_stream~g; \
 	    s~<<COVERITY_USERNAME>>~$coverity_username~g; \
 	    s~<<COVERITY_PASSWORD>>~$coverity_password~g; \
             s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
