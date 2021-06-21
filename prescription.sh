@@ -429,7 +429,7 @@ function create_io_asset () {
 
 function box_line () {
     arg1=$1
-    arg2=$2
+    arg2=$2 
     len=$((${#arg2}+5))
     box_str="\n+"
     for i in $(seq $len); do box_str="$box_str-"; done;
