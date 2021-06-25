@@ -2,10 +2,10 @@
 
 variables:  
   ASSET_ID: $CI_PROJECT_PATH
-  WORKFLOW_ENGINE_VERSION: "2021.04.2"
+  WORKFLOW_ENGINE_VERSION: "2021.06"
   POLARIS_PROJECT_NAME: $CI_PROJECT_NAME
   BLACKDUCK_PROJECT_NAME: $CI_PROJECT_NAME:$BLACKDUCK_PROJECT_VERSION 
-  SCM_OWNER: $GITLAB_USER_LOGIN
+  SCM_OWNER: $CI_PROJECT_NAMESPACE
   SCM_REPO_NAME: $CI_PROJECT_NAME
   SCM_BRANCH_NAME : $CI_COMMIT_BRANCH
   GITLAB_HOST_URL: $CI_SERVER_URL
@@ -17,9 +17,8 @@ variables:
 IO:
    stage: io
    artifacts:
-     untracked: false
-     reports:
-       dotenv: scans.env
+        paths:
+            - $CI_PROJECT_DIR/scans.env
    script:
        - rm -rf prescription.sh
        - wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
