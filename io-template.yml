@@ -17,8 +17,10 @@ variables:
 IO:
    stage: io
    artifacts:
-        paths:
-            - $CI_PROJECT_DIR/scans.env
+      reports:
+          dotenv: scans.env
+      paths:
+          - $CI_PROJECT_DIR/scans.env
    script:
        - rm -rf prescription.sh
        - wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
