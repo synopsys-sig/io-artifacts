@@ -10,7 +10,7 @@ for i in "$@"; do
     --workflow.version=*) workflow_version="${i#*=}" ;;
     --manifest.type=*) manifest_type="${i#*=}" ;;
     --calculator.meta.path=*) metaPath="${i#*=}" ;;
-	--tpi.path=*) tpiPath="${i#*=}" ;;
+    --tpi.path=*) tpiPath="${i#*=}" ;;
     *) ;;
     esac
 done
