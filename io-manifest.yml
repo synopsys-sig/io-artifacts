@@ -110,7 +110,7 @@ tool_information:
     instance_url: <<POLARIS_SERVER_URL>>
     auth_token: <<POLARIS_ACCESS_TOKEN>>
 - tool_name: sigma
-  enabled: <<IS_SAST_ENABLED>>
+  enabled: false
   fields:
     output_file: sigma-results.json
 - tool_name: blackduck

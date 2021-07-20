@@ -154,7 +154,7 @@
       },
       {
          "tool_name": "sigma",
-         "enabled": "<<IS_SAST_ENABLED>>",
+         "enabled": false,
          "fields":{
             "output_file": "sigma-results.json"
          }

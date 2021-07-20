@@ -1,0 +1,181 @@
+{
+  "application": {
+    "appId": "<<APP_ID>>",
+    "assetId": "<<ASSET_ID>>",
+    "appType": "Webapp",
+    "release": "<<RELEASE_TYPE>>",
+    "microservice": false,
+    "projectLanguage": "Java",
+    "platformVersion": "Java 8",
+    "buildSystem": "Maven",
+    "riskMatrixRevision": "Rev1.0",
+    "sourceFilePattern": ".*\\+\\+\\+.*(\\.java|\\.jsp)+.*",
+    "sensitivePackagePattern": "<<SENSITIVE_PACKAGE_PATTERN>>",
+    "fileChangeThreshold": "<<FILE_CHANGE_THRESHOLD>>"
+  },
+  "environment": {
+    "scm": "<<SCM_TYPE>>",
+    "scmOwner": "<<SCM_OWNER>>",
+    "scmRepositoryName": "<<SCM_REPO_NAME>>",
+    "scmBranchName": "<<SCM_BRANCH_NAME>>",
+    "bitbucketUserName": "<<BITBUCKET_USERNAME>>",
+    "bitbucketPassword": "<<BITBUCKET_PASSWORD>>",
+    "bitbucketApiUrl": "https://api.bitbucket.org/2.0/repositories/",
+    "githubApiUrl": "https://api.github.com/repos/",
+    "githubUsername": "<<GITHUB_USERNAME>>",
+    "githubToken": "<<GITHUB_ACCESS_TOKEN>>",
+    "gitlabHostUrl": "<<GITLAB_HOST_URL>>",
+    "gitlabToken": "<<GITLAB_TOKEN>>",
+    "enableJira": "<<ENABLE_JIRA>>",
+    "jiraProjectName": "<<JIRA_PROJECT_NAME>>",
+    "jiraIssuesQuery": "<<JIRA_ISSUES_QUERY>>",
+    "jiraApiUrl": "<<JIRA_API_URL>>",
+    "jiraUserName": "<<JIRA_USERNAME>>",
+    "jiraAuthToken": "<<JIRA_AUTH_TOKEN>>"
+  },
+  "security": {
+    "activities": {
+      "sast": {
+        "rescanThreshold": "<<SAST_RESCAN_THRESHOLD>>"
+      },
+      "sca": {
+        "rescanThreshold": "<<SCA_RESCAN_THRESHOLD>>"
+      }
+    }
+  },
+  "connectors": [
+    {
+      "connector_name": "slack",
+      "fields": {
+        "channelidentifier": "<<SLACK_CHANNEL_ID>>",
+        "bearertoken": "<<SLACK_TOKEN>>"
+      }
+    },
+    {
+      "connector_name": "jira",
+      "fields": {
+        "issuetype": "Bug",
+        "projectkey": "<<JIRA_PROJECT_NAME>>",
+        "assignee": "<<JIRA_ASSIGNEE>>",
+        "url": "<<JIRA_API_URL>>",
+        "username": "<<JIRA_USERNAME>>",
+        "authtoken": "<<JIRA_AUTH_TOKEN>>"
+      }
+    },
+    {
+      "connector_name": "rally",
+      "fields": {
+        "projectkey": "<<RALLY_PROJECT_NAME>>",
+        "assignee": "<<RALLY_ASSIGNEE>>",
+        "url": "<<RALLY_API_URL>>",
+        "authtoken": "<<RALLY_AUTH_TOKEN>>"
+      }
+    },
+    {
+      "connector_name": "bitbucket",
+      "fields": {
+        "workspace_name": "<<SCM_OWNER>>",
+        "repository_name": "<<SCM_REPO_NAME>>",
+        "commit_id": "<<BITBUCKET_COMMIT_ID>>",
+        "username": "<<BITBUCKET_USERNAME>>",
+        "app_password": "<<BITBUCKET_PASSWORD>>"
+      }
+    },
+    {
+      "connector_name": "github",
+      "fields": {
+        "file_path": "workflowengine-results.sarif.json",
+        "owner_name": "<<GITHUB_OWNER_NAME>>",
+        "repository_name": "<<GITHUB_REPO_NAME>>",
+        "ref": "<<GITHUB_REF>>",
+        "commit_id": "<<GITHUB_COMMIT_ID>>",
+        "username": "<<GITHUB_USERNAME>>",
+        "accesstoken": "<<GITHUB_ACCESS_TOKEN>>"
+      }
+    }
+  ],
+  "buildbreaker": [
+    {
+      "activityname": "sast",
+      "status": [
+        "new",
+        "open"
+      ],
+      "overallseverity": [
+        "high"
+      ],
+      "categories": [
+        {
+          "name": "cross-site scripting",
+          "severity": "high"
+        },
+        {
+          "name": "sql injection",
+          "severity": "high"
+        }
+      ]
+    },
+    {
+      "activityname": "sca",
+      "status": [
+        "new"
+      ],
+      "overallseverity": [
+        "high"
+      ],
+      "categories": [
+        {
+          "name": "cve-2015-2119",
+          "severity": "medium"
+        }
+      ]
+    }
+  ],
+  "tool_information": [
+    {
+      "tool_name": "coverity",
+      "enabled": false,
+      "fields": {
+        "file_path": "coverity-results.json",
+        "stream": "<<COVERITY_STREAM>>",
+        "instance_url": "<<COVERITY_SERVER_URL>>",
+        "username": "<<COVERITY_USERNAME>>",
+        "password": "<<COVERITY_PASSWORD>>"
+      }
+    },
+    {
+      "tool_name": "polaris",
+      "enabled": false,
+      "fields": {
+        "project_name": "<<POLARIS_PROJECT_NAME>>",
+        "instance_url": "<<POLARIS_SERVER_URL>>",
+        "auth_token": "<<POLARIS_ACCESS_TOKEN>>"
+      }
+    },
+    {
+      "tool_name": "sigma",
+      "enabled": "<<IS_SAST_ENABLED>>",
+      "fields":{
+        "output_file": "sigma-results.json"
+      }
+    },
+    {
+      "tool_name": "blackduck",
+      "enabled": "<<IS_SCA_ENABLED>>",
+      "fields": {
+        "project_name": "<<BLACKDUCK_PROJECT_NAME>>",
+        "instance_url": "<<BLACKDUCK_SERVER_URL>>",
+        "auth_token": "<<BLACKDUCK_ACCESS_TOKEN>>"
+      }
+    },
+    {
+      "tool_name": "seeker",
+      "enabled": "<<IS_DAST_ENABLED>>",
+      "fields": {
+        "project_name": "<<SEEKER_PROJECT_NAME>>",
+        "instance_url": "<<SEEKER_SERVER_URL>>",
+        "auth_token": "<<SEEKER_ACCESS_TOKEN>>"
+      }
+    }
+  ]
+}
