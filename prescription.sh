@@ -369,7 +369,7 @@ function getIOPrescription() {
     printf "\nIO Prescription -->\n"
     http_response=$(curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -H "${header}" -s -o result.json -w "%{http_code}" -d @data.json ${io_url}/io/api/manifest/${API})
     echo $result.json
-    echo "Response code obtained is:$http_response"
+    printf "Response code obtained is:${http_response}"
     
     if [ $(http_response) != 200 ] && [ $(http_response) != 201 ]; then
     	exit_program "Error: API /io/api/manifest/${API} returned $(http_response)"
