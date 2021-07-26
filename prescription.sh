@@ -367,7 +367,7 @@ function getIOPrescription() {
     fi
 	
     printf "\nIO Prescription -->\n"
-    http_response=$(curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -H "${header}" -s -o result.json -w "%{http_code}" -d @data.json ${io_url}/io/api/manifest/${API})
+    http_response=$(curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -H "${header}" -o result.json -w "%{http_code}" -d @data.json ${io_url}/io/api/manifest/${API})
     cat result.json
     if [ "$http_response" != 200 ] && [ "$http_response" != 201 ]; then
     	exit_program "Error: API /io/api/manifest/${API} returned ${http_response}"
@@ -398,7 +398,7 @@ function is_workflow_client_jar_present () {
     if [ ! -f "WorkflowClient.jar" ]; then
         printf "WorkflowClient.jar file does not exist\n"
         printf "Downloading default WorkflowClient.jar\n"
-        wget "https://github.com/synopsys-sig/io-artifacts/releases/download/${workflow_version}/WorkflowClient.jar"
+        wget --progress=bar:force "https://github.com/synopsys-sig/io-artifacts/releases/download/${workflow_version}/WorkflowClient.jar"
     fi
 }
 
