@@ -96,6 +96,10 @@ function generateYML () {
         --coverity.stream=*) coverity_stream="${i#*=}" ;;
         --coverity.username=*) coverity_username="${i#*=}" ;;
         --coverity.password=*) coverity_password="${i#*=}" ;;
+        --codedx.url=*) codedx_server_url="${i#*=}" ;;				#codedx
+        --codedx.api.key=*) codedx_api_key="${i#*=}" ;;
+        --codedx.project.id=*) codedx_project_id="${i#*=}" ;;
+        --codedx.min.risk.score=*) codedx_min_risk_score="${i#*=}" ;;
         --IS_DAST_ENABLED=*) is_dast_enabled="${i#*=}" ;;                 #seeker
         --seeker.project.name=*) seeker_project_name="${i#*=}" ;;
         --seeker.url=*) seeker_server_url="${i#*=}" ;;
@@ -216,6 +220,10 @@ function generateYML () {
             s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
 	    s~<<SEEKER_SERVER_URL>>~$seeker_server_url~g; \
 	    s~<<SEEKER_ACCESS_TOKEN>>~$seeker_access_token~g; \
+	    s~<<CODEDX_SERVER_URL>>~$codedx_server_url~g; \
+	    s~<<CODEDX_API_KEY>>~$codedx_api_key~g; \
+	    s~<<CODEDX_PROJECT_ID>>~$codedx_project_id~g; \
+	    s~<<CODEDX_MIN_RISK_SCORE>>~$codedx_min_risk_score~g; \
 	    s~\"<<IS_SAST_ENABLED>>\"~$is_sast_enabled~g; \
 	    s~\"<<IS_SCA_ENABLED>>\"~$is_sca_enabled~g; \
 	    s~\"<<IS_DAST_ENABLED>>\"~$is_dast_enabled~g; \
@@ -271,6 +279,10 @@ function generateYML () {
             s~<<SEEKER_PROJECT_NAME>>~$seeker_project_name~g; \
 	    s~<<SEEKER_SERVER_URL>>~$seeker_server_url~g; \
 	    s~<<SEEKER_ACCESS_TOKEN>>~$seeker_access_token~g; \
+	    s~<<CODEDX_SERVER_URL>>~$codedx_server_url~g; \
+	    s~<<CODEDX_API_KEY>>~$codedx_api_key~g; \
+	    s~<<CODEDX_PROJECT_ID>>~$codedx_project_id~g; \
+	    s~<<CODEDX_MIN_RISK_SCORE>>~$codedx_min_risk_score~g; \
 	    s~<<IS_SAST_ENABLED>>~$is_sast_enabled~g; \
 	    s~<<IS_SCA_ENABLED>>~$is_sca_enabled~g; \
 	    s~<<IS_DAST_ENABLED>>~$is_dast_enabled~g; \
