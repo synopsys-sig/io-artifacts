@@ -323,13 +323,6 @@ function loadWorkflow() {
     
     #checks if WorkflowClient.jar is present
     is_workflow_client_jar_present
-
-    if [[ -z "${project_name_manifest}" || "${project_name_manifest}" == "<<PROJECT_NAME>>" ]]; then
-        if [[ -z "${project_name}" ]]; then
-            validate_values "IO_ASSET_ID" "$asset_id"
-            printf "IO Asset ID: ${asset_id}\n"
-        fi
-    fi
     
     #update scan date
     if [[ "${persona}" != "developer" ]]; then
