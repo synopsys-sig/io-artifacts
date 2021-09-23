@@ -1,6 +1,7 @@
 {
   "application": {
     "appId": "<<APP_ID>>",
+    "projectName": "<<PROJECT_NAME>>",
     "assetId": "<<ASSET_ID>>",
     "appType": "Webapp",
     "release": "<<RELEASE_TYPE>>",

@@ -55,6 +55,7 @@ function generateYML () {
         --workflow.url=*) workflow_url="${i#*=}" ;;
         --sensitive.package.pattern=*) sensitive_package="${i#*=}" ;;
         --asset.id=*) asset_id="${i#*=}" ;;
+        --project.name=*) project_name="${i#*=}" ;;
         --slack.channel.id=*) slack_channel_id="${i#*=}" ;;    #slack
         --slack.token=*) slack_token="${i#*=}" ;;
         --jira.enable=*) enable_jira="${i#*=}" ;;    #jira
@@ -167,19 +168,27 @@ function generateYML () {
     fi
     
     if [[ "$manifest_type" == "json" ]]; then
-        asset_id_from_yml=$(jq -r '.application.assetId' $config_file)
+        asset_id_manifest=$(jq -r '.application.assetId' $config_file)
     elif [[ "$manifest_type" == "yml" ]]; then
-        asset_id_from_yml=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["assetId"]' $config_file)
+        asset_id_manifest=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["assetId"]' $config_file)
+    fi
+
+    if [[ "$manifest_type" == "json" ]]; then
+        project_name_manifest=$(jq -r '.application.projectName' $config_file)
+    elif [[ "$manifest_type" == "yml" ]]; then
+        project_name_manifest=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["projectName"]' $config_file)
     fi
     
     #Use ASSED_ID from manifest file if not default value
-    if [[ "${asset_id_from_yml}" != "<<ASSET_ID>>" ]]; then
-        asset_id=${asset_id_from_yml}
+    if [[ "${asset_id_manifest}" != "<<ASSET_ID>>" ]]; then
+        asset_id=${asset_id_manifest}
     fi
-    
-    #create a asset in IO if the persona is not developer
-    if [[ "${asset_id_from_yml}" == "<<ASSET_ID>>" && "${persona}" != "developer" ]]; then
-        create_io_asset
+
+    #create an asset in IO if the persona is not developer and project name is not supplied
+    if [[ -z "${project_name_manifest}" || "${project_name_manifest}" == "<<PROJECT_NAME>>" ]]; then
+        if [[ -z "${project_name}" && "${asset_id_manifest}" == "<<ASSET_ID>>" && "${persona}" != "developer" ]]; then
+            create_io_asset
+        fi
     fi
     
     if [[ "$manifest_type" == "json" ]]; then
@@ -229,6 +238,7 @@ function generateYML () {
 	    s~\"<<IS_DAST_ENABLED>>\"~$is_dast_enabled~g; \
 	    s~<<APP_ID>>~$asset_id~g; \
 	    s~<<ASSET_ID>>~$asset_id~g; \
+	    s~<<PROJECT_NAME>>~$project_name~g; \
 	    s~<<RELEASE_TYPE>>~$release_type~g; \
 	    s~<<SENSITIVE_PACKAGE_PATTERN>>~$sensitive_package~g; \
 	    s~\"<<FILE_CHANGE_THRESHOLD>>\"~$file_change_threshold~g; \
@@ -288,6 +298,7 @@ function generateYML () {
 	    s~<<IS_DAST_ENABLED>>~$is_dast_enabled~g; \
 	    s~<<APP_ID>>~$asset_id~g; \
 	    s~<<ASSET_ID>>~$asset_id~g; \
+	    s~<<PROJECT_NAME>>~$project_name~g; \
 	    s~<<RELEASE_TYPE>>~$release_type~g; \
 	    s~<<SENSITIVE_PACKAGE_PATTERN>>~$sensitive_package~g; \
 	    s~<<FILE_CHANGE_THRESHOLD>>~$file_change_threshold~g; \
@@ -316,45 +327,77 @@ function loadWorkflow() {
     #update scan date
     if [[ "${persona}" != "developer" ]]; then
         if [[ "$manifest_type" == "json" ]]; then
-           asset_id_from_yml=$(jq -r '.application.assetId' synopsys-io.json)
+            asset_id_manifest=$(jq -r '.application.assetId' synopsys-io.json)
         elif [[ "$manifest_type" == "yml" ]]; then
-            asset_id_from_yml=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["assetId"]' synopsys-io.yml)
+            asset_id_manifest=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["assetId"]' synopsys-io.yml)
+        fi
+
+        if [[ "$manifest_type" == "json" ]]; then
+            project_name_manifest=$(jq -r '.application.projectName' synopsys-io.json)
+        elif [[ "$manifest_type" == "yml" ]]; then
+            project_name_manifest=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["projectName"]' synopsys-io.yml)
         fi
 	
         curr_date=$(date +'%Y-%m-%d')
 	
-	scandate_json="{\"assetId\": \"${asset_id_from_yml}\",\"activities\":{"
+        scandate_json="{"
+
+        if [ -n "${asset_id_manifest}" ]; then
+            scandate_json="$scandate_json\"assetId\": \"${asset_id_manifest}\","
+        fi
+
+        if [ -n "${project_name_manifest}" ]; then
+            scandate_json="$scandate_json\"projectName\": \"${project_name_manifest}\","
+        fi
+
+        scandate_json="$scandate_json\"activities\":{"
+
         if [ "$is_sast_enabled" = true ] ; then
            scandate_json="$scandate_json\"sast\": {\"lastScanDate\": \"${curr_date}\"}"
         fi
+
         if [ "$is_sca_enabled" = true ] && [ "$is_sast_enabled" = true ] ; then
            scandate_json="$scandate_json,"
         fi
+
         if [ "$is_sca_enabled" = true ] ; then
            scandate_json="$scandate_json\"sca\": {\"lastScanDate\": \"${curr_date}\"}"
         fi
+
         scandate_json="$scandate_json}}"
+
         echo "$scandate_json" >scandate.json
         echo "$scandate_json"
 	
         echo "Updating last scan date for perfomed security activities"
         header='Authorization: Bearer '$io_token''
-        scandateresponse=$(curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -H "${header}" -d @scandate.json ${io_url}/io/api/manifest/update/scandate)
-        echo $scandateresponse
+        http_response=$(curl -X POST -H 'Content-Type:application/json' -H 'Accept:application/json' -H "${header}" -o result.json -w "%{http_code}" -d @scandate.json ${io_url}/io/api/manifest/update/scandate)
+        cat result.json
+        printf "\n"
+        if [ "$http_response" != 200 ] && [ "$http_response" != 201 ]; then
+            exit_program "Error: API /io/api/manifest/update/scandate returned ${http_response}"
+        fi
     fi
 }
 
 function getIOPrescription() {
     echo "Getting IO Prescription"
 	
+
+   #validates io asset id when project name is not supplied
+    if [[ -z "${project_name_manifest}" || "${project_name_manifest}" == "<<PROJECT_NAME>>" ]]; then
+        if [[ -z "${project_name}" ]]; then
+            validate_values "IO_ASSET_ID" "$asset_id"
+            printf "IO Asset ID: ${asset_id}\n"
+        fi
+    fi
+
     #validates mandatory arguments for IO
-    validate_values "IO_ASSET_ID" "$asset_id"
     validate_values "SCM_TYPE" "$scm_type"
     validate_values "SCM_OWNER" "$scm_owner"
     validate_values "REPOSITORY_NAME" "$scm_repo_name"
     validate_values "BRANCH_NAME" "$scm_branch_name"
     
-    printf "IO Asset ID: ${asset_id}\n"
     printf "SCM TYPE: ${scm_type}\n"
     printf "Using the repository ${scm_repo_name} and branch ${scm_branch_name}. Action triggered by ${scm_owner}\n\n"
 	
