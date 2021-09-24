@@ -2,6 +2,7 @@
     "application": {
        "appId": "<<APP_ID>>",
        "assetId": "<<ASSET_ID>>",
+       "projectName": "<<PROJECT_NAME>>",
        "appType": "Webapp",
        "release": "<<RELEASE_TYPE>>",
        "microservice": false,
