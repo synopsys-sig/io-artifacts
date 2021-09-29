@@ -1,0 +1,110 @@
+initscript {
+    repositories {
+        maven {
+	    url 'https://jfrog.de.corp.wabtec.com/artifactory/SIMS-virtual'
+            credentials {
+                username = "ART_USER"
+                password = "ART_PASS"
+            }
+        }
+    }
+}
+gradle.projectsLoaded {
+    allprojects { project ->
+        project.group = 'com.ge.trans.rc360.sit'
+        // Define Build Script Repositories
+        project.buildscript {
+            repositories {
+                maven {
+                    url 'https://jfrog.de.corp.wabtec.com/artifactory/SIMS-virtual'
+                    credentials {
+                        username = "${artifactory_user}"
+                        password = "${artifactory_password}"
+                    }
+                }
+            }
+            dependencies {
+                classpath("org.jacoco:org.jacoco.agent:0.8.5")
+            }
+        }
+        // Define Project Repositories
+        project.repositories {
+            all { ArtifactRepository repo ->
+                if (repo instanceof MavenArtifactRepository
+                        && !repo.url.toString().startsWith("https://jfrog.de.corp.wabtec.com/artifactory")) {
+                    project.logger.lifecycle "Repository ${repo.url} removed. Only GE Artifactory is allowed"
+                    remove repo
+                }
+            }
+            maven {
+                url 'https://jfrog.de.corp.wabtec.com/artifactory/SIMS-virtual'
+                credentials {
+                    username = "${artifactory_user}"
+                    password = "${artifactory_password}"
+                }
+            }
+        }
+        // Configure the Frequency to Check for Changing Dependencies
+        project.configurations.all {
+            // Check for updates every build
+            resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+        }
+    }
+    allprojects {
+        afterEvaluate { project ->
+            if (project.plugins.hasPlugin(JavaPlugin)) {
+                project.plugins.apply('checkstyle')
+                project.plugins.apply('jacoco')
+                project.configurations {
+                    checkstyleConfig
+                }
+                project.dependencies {
+                    def checkstyleToolsVersion =
+                          project.getProperties().getOrDefault("checkstyleToolsVersion", "2.0.4.1")
+                    checkstyleConfig("com.ge.trans.rc360.sit:sit-tools-common:${checkstyleToolsVersion}")
+                    {
+                        transitive = false
+                    }
+
+                }
+                project.checkstyle {
+                     def checkstyleVersion =
+                          project.getProperties().getOrDefault("checkstyleVersion", "8.2")
+
+                    toolVersion "${checkstyleVersion}"
+                    config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, "checkstyle.config.xml")
+                }
+
+                // Jacoco Configuration
+                project.test {
+
+   		        }
+   		        project.jacoco {
+                    //reportsDir = file("build/jacoco")
+                    toolVersion = "0.8.5"
+                    //reportsDir = file("build/tmp/jacoco.exec")
+                    //toolVersion = "0.7.5.201505241946"
+                }
+
+           		 project.tasks.withType(JacocoReport) {
+               		   group = "Test Reporting"
+               		   description = "Generate Jacoco coverage reports"
+               		   reports {
+                   		 xml.enabled = true
+                   		 html.enabled = false
+                   		 csv.enabled = false
+               		   }
+               			 //def fileFilter = ['**/BuildConfig.class', 'src/main/**/*', 'src/main/**/*',]
+
+                       	//def debugTree = fileTree(dir: "${buildDir}/intermediates/javac/debug/classes", excludes: fileFilter)
+               			 //def mainSrc = "${project.projectDir}/src/main"
+               			 //sourceDirectories = files([mainSrc])
+               			 //classDirectories = files([debugTree])
+               			 //executionData = fileTree(dir: project.projectDir, includes: ['**/**/*.exec', '**/**/*.ec'])
+        			     // executionData = file("${project.projectDir}/build/tmp/jacoco.exec")
+             		 }
+
+                }
+           }
+        }
+    }

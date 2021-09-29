@@ -1,0 +1,92 @@
+{
+   "revision": "high-risk",
+   "accessibility": {
+      "weightage": 15,
+      "access": {
+         "Physical": 10,
+         "Intranet": 25,
+         "Partner": 75,
+         "Internet": 100
+      }
+   },
+   "bizCriticality": {
+      "weightage": 15,
+      "criticality": {
+         "Critical": 100,
+         "High": 75,
+         "Medium": 25,
+         "Low": 10
+      }
+   },
+   "change": {
+      "weightage": 40,
+      "significance": {
+         "Critical": 100,
+         "High": 75,
+         "Medium": 25,
+         "Low": 10
+      }
+   },
+   "dataClass": {
+      "weightage": 15,
+      "classification": {
+         "Highly_Restricted": 100,
+         "Restricted": 75,
+         "Internal": 25,
+         "Public": 10
+      }
+   },
+   "tooling": {
+      "weightage": 0,
+      "tools": {
+         "SAST": 20,
+         "SCA": 20,
+         "IAST": 20,
+         "SecureAssist": 20,
+         "RASP": 20
+      }
+   },
+   "openVuln": {
+      "weightage": 15,
+      "severity": {
+         "Critical": 100,
+         "High": 75,
+         "Medium": 25,
+         "Low": 10
+      }
+   },
+   "calculatorMatrix": {
+      "ranges": [
+         {
+            "score_High": 100,
+            "score_Low": 85,
+            "sast": true,
+            "sca": true
+         },
+         {
+            "score_High": 85,
+            "score_Low": 70,
+            "sast": true,
+            "sca": true
+         },
+         {
+            "score_High": 70,
+            "score_Low": 55,
+            "sast": true,
+            "sca": true
+         },
+         {
+            "score_High": 55,
+            "score_Low": 40,
+            "sast": true,
+            "sca": false
+         },
+         {
+            "score_High": 40,
+            "score_Low": 0,
+            "sast": false,
+            "sca": false
+         }
+      ]
+   }
+}

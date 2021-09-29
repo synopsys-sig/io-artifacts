@@ -1,0 +1,25 @@
+#Black-duck -- synopsys
+# Things to do:
+# how to get Version?
+# Does it need artifacts passed? I think not!!
+
+black-duck:
+  variables:
+    BLACKDUCK_SERVER_URL: "https://bizdevhub.blackducksoftware.com"
+    BLACKDUCK_PROJECT_VERSION: "1.0"
+  image: registry.gitlab.com/synopsys-io/io-artifacts/blackduck-env:latest
+  stage: test
+  script:
+     - source $CI_PROJECT_DIR/scans.env
+     - >
+        if [ "x$IS_SCA_ENABLED" = "x" ] || [ "$IS_SCA_ENABLED" = "false" ] || [ "$IS_SCA_ENABLED" = "null" ]; then
+            echo "SCA Scanning is disabled."
+            exit 0
+        fi
+     - pwd && wget "https://detect.synopsys.com/detect.sh" && chmod +x detect.sh
+     - >
+         ./detect.sh --blackduck.url="$BLACKDUCK_SERVER_URL" --blackduck.api.token="$BLACKDUCK_ACCESS_TOKEN" \
+         --detect.tools="SIGNATURE_SCAN,DETECTOR" --detect.project.name="$BD_PROJECT_NAME" --detect.project.version.name="$BLACKDUCK_PROJECT_VERSION" \
+         --detect.code.location.name="$BD_PROJECT_NAME-$BLACKDUCK_PROJECT_VERSION" --logging.level.com.synopsys.integration="INFO" $ADDITIONAL_BD_ARGS
+  dependencies:
+    - IO

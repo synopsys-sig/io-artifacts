@@ -1,6 +1,6 @@
 variables:
   ASSET_ID: $CI_PROJECT_PATH
-  WORKFLOW_ENGINE_VERSION: "2021.8.1"
+  WORKFLOW_ENGINE_VERSION: "2021.06.0"
   POLARIS_PROJECT_NAME: $CI_PROJECT_NAME
   BLACKDUCK_PROJECT_NAME: $CI_PROJECT_NAME:$BLACKDUCK_PROJECT_VERSION
   SCM_OWNER: $CI_PROJECT_NAMESPACE
@@ -33,11 +33,11 @@ IO_SETUP:
         echo "IO Risk Matrix URL -> $IO_RISK_MATRIX_URL"
         echo "IO TPI URL -> $IO_TPI_URL"
     - echo "IO_MANIFEST_URL=${IO_MANIFEST_URL}" >> manifest.env
-    - wget "${GITLAB_URL}/synopsys-io/io-artifacts/-/raw/main/io_onboarding.sh"
+    #- wget "${GITLAB_URL}/synopsys-io/io-artifacts/-/raw/main/io_onboarding.sh"
     - wget $IO_RISK_MATRIX_URL
     - wget $IO_TPI_URL
-    - sed -i -e 's/\r$//' io_onboarding.sh
-    - chmod +x io_onboarding.sh
+    #- sed -i -e 's/\r$//' io_onboarding.sh
+    #- chmod +x io_onboarding.sh
     - /home/devops/io_onboarding.sh --io.url=$IO_SERVER_URL --io.token=$IO_ACCESS_TOKEN --asset.id=$CI_PROJECT_PATH --calculator.meta.path=$IO_RISK_MATRIX_FILENAME --tpi.path=$IO_TPI_FILENAME --manifest.type=$MANIFEST_TYPE
 
 IO:
@@ -49,9 +49,9 @@ IO:
   script:
       - source $CI_PROJECT_DIR/manifest.env
       - rm -rf prescription.sh
-      - wget "${GITLAB_URL}/synopsys-io/io-artifacts/-/raw/main/prescription.sh"
-      - sed -i -e 's/\r$//' prescription.sh
-      - chmod +x prescription.sh
+      #- wget "${GITLAB_URL}/synopsys-io/io-artifacts/-/raw/main/prescription.sh"
+      #- sed -i -e 's/\r$//' prescription.sh
+      #- chmod +x prescription.sh
       - /home/devops/prescription.sh
         --stage="IO"
         --persona=$PERSONA
@@ -131,12 +131,12 @@ IO_WORKFLOWENGINE:
   script:
       - source $CI_PROJECT_DIR/manifest.env
       - source $CI_PROJECT_DIR/scans.env
-      - >
-         if [ ! -f 'prescription.sh' ]; then
-          wget "${GITLAB_URL}/synopsys-io/io-artifacts/-/raw/main/prescription.sh"
-         fi
-      - sed -i -e 's/\r$//' prescription.sh
-      - chmod +x prescription.sh
+      #- >
+      #    if [ ! -f 'prescription.sh' ]; then
+      #     wget "${GITLAB_URL}/synopsys-io/io-artifacts/-/raw/main/prescription.sh"
+      #    fi
+      #- sed -i -e 's/\r$//' prescription.sh
+      #- chmod +x prescription.sh
       - /home/devops/prescription.sh
         --stage="WORKFLOW"
         --persona=$PERSONA
@@ -184,12 +184,12 @@ IO_WORKFLOWENGINE:
       - rm -rf synopsys-io.yml
       - rm -rf synopsys-io.json
       - |
-        echo "========================== IO WorkflowEngine Summary ============================"
+        echo "========================== IO WorkflowEngine Summary ============================" 
         echo "Breaker Status - $(jq -r '.breaker.status' wf-output.json)"
   dependencies:
     - IO
     - IO_SETUP
-
+       
 PUSH_TEAM_NOTIFICATIONS:
   stage: notify_teams
   image: registry.gitlab.com/synopsys-io/io-artifacts/io-env:latest
@@ -197,7 +197,7 @@ PUSH_TEAM_NOTIFICATIONS:
   - if: '$TEAMS_WEBHOOK_URL =~ /^./'
     when: always
   script:
-    - >
+    - > 
       if [ "$(jq -r '.breaker.status' wf-output.json)" = "true" ]; then
           echo "Sending Notifications to Teams..."
           curl --location $TEAMS_WEBHOOK_URL --header 'Content-Type: application/json' --data-raw "{"text":\"$(cat wf-output.txt)\"}"

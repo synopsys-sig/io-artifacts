@@ -1,0 +1,15 @@
+{
+   "assetId": "<<ASSET_ID>>",
+   "assetType": "Application",
+   "applicationType": "DMZ",
+   "applicationName": "SampleIO",
+   "applicationBuildName": "test-build",
+   "soxFinancial": false,
+   "ppi": false,
+   "mnpi": false,
+   "infoClass": "Public",
+   "customerFacing": false,
+   "externallyFacing": false,
+   "assetTier": "Tier 01",
+   "fairLending": false
+}

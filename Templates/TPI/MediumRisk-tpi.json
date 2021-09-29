@@ -1,0 +1,15 @@
+{
+   "assetId": "<<ASSET_ID>>",
+   "assetType": "Application",
+   "applicationType": "Financial",
+   "applicationName": "SampleIO",
+   "applicationBuildName": "test-build",
+   "soxFinancial": true,
+   "ppi": true,
+   "mnpi": false,
+   "infoClass": "Internal",
+   "customerFacing": true,
+   "externallyFacing": false,
+   "assetTier": "Tier 01",
+   "fairLending": false
+}

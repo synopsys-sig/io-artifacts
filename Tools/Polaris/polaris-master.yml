@@ -1,0 +1,18 @@
+polaris:
+  stage: test
+  image: registry.gitlab.com/synopsys-io/io-artifacts/polaris-env:latest
+  artifacts:
+      paths:
+          - $CI_PROJECT_DIR/polaris.yml
+  script:
+    - source $CI_PROJECT_DIR/scans.env
+    - >
+        if [ "x$IS_SAST_ENABLED" = "x" ] || [ "$IS_SAST_ENABLED" = "false" ] || [ "$IS_SAST_ENABLED" = "null" ]; then
+            echo "SAST Scanning is disabled."
+            exit 0
+        fi
+    - polaris --co project.name=$POLARIS_PROJECT_NAME analyze -w $ADDITIONAL_POLARIS_ARGS
+  after_script:
+    - rm -rRf /tmp/polaris && rm -rRf /tmp/polaris_cli-linux64.zip
+  dependencies:
+    - IO
