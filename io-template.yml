@@ -75,7 +75,7 @@ IO:
         echo "Is SCA Enabled - ${IS_SCA_ENABLED}"
         if [ $PERSONA == "devsecops" ]; then
             echo "==================================== IO Risk Score ======================================="
-            echo "Buisness Criticality Score - $(jq -r '.riskScoreCard.bizCriticalityScore' result.json)"
+            echo "Business Criticality Score - $(jq -r '.riskScoreCard.bizCriticalityScore' result.json)"
             echo "Data Class Score - $(jq -r '.riskScoreCard.dataClassScore' result.json)"
             echo "Access Score - $(jq -r '.riskScoreCard.accessScore' result.json)"
             echo "Open Vulnerability Score - $(jq -r '.riskScoreCard.openVulnScore' result.json)"
