@@ -67,6 +67,13 @@ IO:
         ${ADDITIONALARGS}
        - IS_SAST_ENABLED=$(jq -r '.security.activities.sast.enabled' result.json)
        - IS_SCA_ENABLED=$(jq -r '.security.activities.sca.enabled' result.json)
+       - |
+        if [ -z "$IS_SAST_ENABLED" ]; then
+          IS_SAST_ENABLED=false
+        fi
+        if [ -z "$IS_SCA_ENABLED" ]; then
+          IS_SCA_ENABLED=false
+        fi
        - echo "IS_SAST_ENABLED=${IS_SAST_ENABLED}" >> scans.env
        - echo "IS_SCA_ENABLED=${IS_SCA_ENABLED}" >> scans.env
        - |
