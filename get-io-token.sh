@@ -25,10 +25,17 @@ access_token=$(sed 's/;.*//' line.txt)
 response=$(curl --location --request POST "$io_url/api/auth/tokens" \
 --header "Authorization: Bearer $access_token" \
 --header 'Content-Type: application/json' \
+-w "%{http_code}" \
 -o output.json \
 --data-raw '{
 	"name": '\"$token_name\"'
 }');
+
+if [ "$response" != 200 ] && [ "$response" != 201 ]; then
+	cat output.json
+	printf "\nError: API /api/auth/tokens returned ${response}"
+	exit 1
+fi
 
 userToken=$(jq -r '.token' output.json)
 echo "IO_ACCESS_TOKEN: $userToken"
