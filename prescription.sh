@@ -149,21 +149,23 @@ function generateYML () {
         fi
     fi
     
-    if [[ "${stage}" == "IO" ]]; then
-        #condition to retrieve release value based on manifest type
-	if [[ "$manifest_type" == "json" ]]; then
-            release_type_from_yml=$(jq -r '.application.release' $config_file)
-        elif [[ "$manifest_type" == "yml" ]]; then
-            release_type_from_yml=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["release"]' $config_file)
-        fi
+    if [[ "${persona}" == "developer" ]]; then
+    	if [[ "${stage}" == "IO" ]]; then
+            #condition to retrieve release value based on manifest type
+	    if [[ "$manifest_type" == "json" ]]; then
+                release_type_from_yml=$(jq -r '.application.release' $config_file)
+            elif [[ "$manifest_type" == "yml" ]]; then
+                release_type_from_yml=$(ruby -r yaml -e 'puts YAML.load_file(ARGV[0])["application"]["release"]' $config_file)
+            fi
 	
-	#validate the release value
-        if [[ "${release_type_from_yml}" == "<<RELEASE_TYPE>>" ]]; then
-            if [ `echo $release_type | tr [:upper:] [:lower:]` != "major" -a `echo $release_type | tr [:upper:] [:lower:]` != "minor" ]; then
+	    #validate the release value
+            if [[ "${release_type_from_yml}" == "<<RELEASE_TYPE>>" ]]; then
+                if [ `echo $release_type | tr [:upper:] [:lower:]` != "major" -a `echo $release_type | tr [:upper:] [:lower:]` != "minor" ]; then
+                    exit_program "Error: Invalid release type given as input, Accepted values are major/minor with case insenstive."
+                fi
+            elif [ `echo $release_type_from_yml | tr [:upper:] [:lower:]` != "major" -a `echo $release_type_from_yml | tr [:upper:] [:lower:]` != "minor" ]; then
                 exit_program "Error: Invalid release type given as input, Accepted values are major/minor with case insenstive."
             fi
-        elif [ `echo $release_type_from_yml | tr [:upper:] [:lower:]` != "major" -a `echo $release_type_from_yml | tr [:upper:] [:lower:]` != "minor" ]; then
-            exit_program "Error: Invalid release type given as input, Accepted values are major/minor with case insenstive."
         fi
     fi
     
