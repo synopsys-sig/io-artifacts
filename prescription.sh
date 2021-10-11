@@ -344,11 +344,11 @@ function loadWorkflow() {
 	
         scandate_json="{"
 
-        if [ -n "${asset_id_manifest}" ]; then
+        if [[ -n "$asset_id_manifest"  && "$asset_id_manifest" != null ]]; then
             scandate_json="$scandate_json\"assetId\": \"${asset_id_manifest}\","
         fi
 
-        if [ -n "${project_name_manifest}" ]; then
+        if [[ -n "$project_name_manifest" && "$project_name_manifest" != null ]]; then
             scandate_json="$scandate_json\"projectName\": \"${project_name_manifest}\","
         fi
 
