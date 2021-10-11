@@ -344,7 +344,7 @@ function loadWorkflow() {
 	
         scandate_json="{"
 
-        if [[ -n "$asset_id_manifest"  && "$asset_id_manifest" != null ]]; then
+        if [[ -n "$asset_id_manifest" && "$asset_id_manifest" != null ]]; then
             scandate_json="$scandate_json\"assetId\": \"${asset_id_manifest}\","
         fi
 
