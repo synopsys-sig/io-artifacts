@@ -142,6 +142,7 @@ IO_WORKFLOWENGINE:
         --IS_DAST_ENABLED=$IS_DAST_ENABLED 
         --slack.channel.id=$SLACK_CHANNEL_ID 
         --slack.token=$SLACK_TOKEN 
+        --msteams.webhook.url=$MSTEAMS_WEBHOOK_URL 
         --coverity.url=$COVERITY_SERVER_URL 
         --coverity.stream=$COVERITY_STREAM 
         --coverity.username=$COVERITY_USERNAME 

@@ -53,6 +53,12 @@
          }
       },
       {
+         "connector_name": "msteams",
+         "fields": {
+            "webhook_url": "<<MSTEAMS_WEBHOOK_URL>>"
+         }
+      },
+      {
          "connector_name": "jira",
          "fields": {
             "issuetype": "Bug",

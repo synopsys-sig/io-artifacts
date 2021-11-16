@@ -44,6 +44,9 @@ connectors:
     fields:
       channelidentifier: <<SLACK_CHANNEL_ID>>
       bearertoken: <<SLACK_TOKEN>>
+  - connector_name: msteams
+    fields:
+      webhook_url:  <<MSTEAMS_WEBHOOK_URL>>
   - connector_name: jira
     fields:
       issuetype: Bug
