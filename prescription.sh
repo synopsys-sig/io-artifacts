@@ -58,6 +58,7 @@ function generateYML () {
         --project.name=*) project_name="${i#*=}" ;;
         --slack.channel.id=*) slack_channel_id="${i#*=}" ;;    #slack
         --slack.token=*) slack_token="${i#*=}" ;;
+        --msteams.webhook.url=*) msteams_webhook_url="${i#*=}" ;;
         --jira.enable=*) enable_jira="${i#*=}" ;;    #jira
         --jira.project.name=*) jira_project_name="${i#*=}" ;;    
         --jira.assignee=*) jira_assignee="${i#*=}" ;;
@@ -197,6 +198,7 @@ function generateYML () {
         synopsys_io_manifest=$(cat $config_file |
         sed " s~<<SLACK_CHANNEL_ID>>~$slack_channel_id~g; \
 	    s~<<SLACK_TOKEN>>~$slack_token~g; \
+	    s~<<MSTEAMS_WEBHOOK_URL>>~$msteams_webhook_url~g; \
 	    s~<<JIRA_PROJECT_NAME>>~$jira_project_name~g; \
 	    s~<<JIRA_ASSIGNEE>>~$jira_assignee~g; \
 	    s~<<JIRA_API_URL>>~$jira_api_url~g; \
@@ -257,6 +259,7 @@ function generateYML () {
         synopsys_io_manifest=$(cat $config_file |
         sed " s~<<SLACK_CHANNEL_ID>>~$slack_channel_id~g; \
 	    s~<<SLACK_TOKEN>>~$slack_token~g; \
+	    s~<<MSTEAMS_WEBHOOK_URL>>~$msteams_webhook_url~g; \
 	    s~<<JIRA_PROJECT_NAME>>~$jira_project_name~g; \
 	    s~<<JIRA_ASSIGNEE>>~$jira_assignee~g; \
 	    s~<<JIRA_API_URL>>~$jira_api_url~g; \
