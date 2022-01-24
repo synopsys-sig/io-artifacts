@@ -21,81 +21,47 @@ IO:
           dotenv: scans.env
       paths:
           - $CI_PROJECT_DIR/scans.env
+          - $CI_PROJECT_DIR/io_state.json
+          - $CI_PROJECT_DIR/io_client-0.1.487
    script:
-       - rm -rf prescription.sh
-       - wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
-       - sed -i -e 's/\r$//' prescription.sh
-       - chmod +x prescription.sh 
-       - ./prescription.sh 
-        --stage="IO" 
-        --persona=$PERSONA 
-        --io.url=$IO_SERVER_URL 
-        --io.token=$IO_ACCESS_TOKEN 
-        --io.manifest.url=$IO_MANIFEST_URL 
-        --manifest.type=$MANIFEST_TYPE 
-        --asset.id=$ASSET_ID 
-        --release.type=$RELEASE_TYPE 
-        --sensitive.package.pattern=$SENSITIVE_PACKAGE_PATTERN 
-        --scm.type="gitlab" 
-        --workflow.url=$WORKFLOW_ENGINE_SERVER_URL 
-        --workflow.version=$WORKFLOW_ENGINE_VERSION 
-        --polaris.project.name=$POLARIS_PROJECT_NAME 
-        --polaris.url=$POLARIS_SERVER_URL 
-        --polaris.token=$POLARIS_ACCESS_TOKEN 
-        --blackduck.project.name="$BLACKDUCK_PROJECT_NAME" 
-        --blackduck.url=$BLACKDUCK_SERVER_URL 
-        --blackduck.api.token=$BLACKDUCK_ACCESS_TOKEN 
-        --scm.owner=$SCM_OWNER 
-        --scm.repo.name=$SCM_REPO_NAME 
-        --scm.branch.name=$SCM_BRANCH_NAME 
-        --gitlab.url=$GITLAB_HOST_URL 
-        --gitlab.token=$GITLAB_TOKEN 
-        --coverity.url=$COVERITY_SERVER_URL 
-        --coverity.stream=$COVERITY_STREAM 
-        --coverity.username=$COVERITY_USERNAME 
-        --coverity.password=$COVERITY_PASSWORD 
-        --jira.api.url=$JIRA_URL 
-        --jira.project.name=$JIRA_PROJECT_KEY 
-        --jira.issues.query=$JIRA_ISSUES_QUERY 
-        --jira.username=$JIRA_USERNAME 
-        --jira.auth.token=$JIRA_AUTH_TOKEN 
-        --jira.assignee=$JIRA_ASSIGNEE 
-        --jira.enable=$ENABLE_JIRA 
-        --IS_SAST_ENABLED=$IS_SAST_ENABLED 
-        --IS_SCA_ENABLED=$IS_SCA_ENABLED 
-        --IS_DAST_ENABLED=$IS_DAST_ENABLED 
-        ${ADDITIONALARGS}
-       - IS_SAST_ENABLED=$(jq -r '.security.activities.sast.enabled' result.json)
-       - IS_SCA_ENABLED=$(jq -r '.security.activities.sca.enabled' result.json)
+       - rm -rf io_client-0.1.487
+       - rm -f io_client-0.1.487.zip
+       - wget http://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/io_client/0.1.487/io_client-0.1.487.zip
+       - unzip -o io_client-0.1.487.zip
+       - chmod +x io_client-0.1.487/macosx/bin/io
+       - io_client-0.1.487/macosx/bin/io --stage io
+       - IS_SAST_ENABLED=$(jq -r '.Data.Prescription.Security.Activities.Sast.Enabled' io_state.json)
+       - IS_SCA_ENABLED=$(jq -r '.Data.Prescription.Security.Activities.Sca.Enabled' io_state.json)
        - |
         if [ -z "$IS_SAST_ENABLED" ]; then
           IS_SAST_ENABLED=false
         fi
+
         if [ -z "$IS_SCA_ENABLED" ]; then
           IS_SCA_ENABLED=false
         fi
        - echo "IS_SAST_ENABLED=${IS_SAST_ENABLED}" >> scans.env
        - echo "IS_SCA_ENABLED=${IS_SCA_ENABLED}" >> scans.env
+       - rm -rf synopsys-io.yml
+       - rm -rf synopsys-io.json       
        - |
         echo "================================== IO Prescription ======================================="
         echo "Is SAST Enabled - ${IS_SAST_ENABLED}"
         echo "Is SCA Enabled - ${IS_SCA_ENABLED}"
         if [ $PERSONA == "devsecops" ]; then
             echo "==================================== IO Risk Score ======================================="
-            echo "Business Criticality Score - $(jq -r '.riskScoreCard.bizCriticalityScore' result.json)"
-            echo "Data Class Score - $(jq -r '.riskScoreCard.dataClassScore' result.json)"
-            echo "Access Score - $(jq -r '.riskScoreCard.accessScore' result.json)"
-            echo "Open Vulnerability Score - $(jq -r '.riskScoreCard.openVulnScore' result.json)"
-            echo "Change Significance Score - $(jq -r '.riskScoreCard.changeSignificanceScore' result.json)"
-            export bizScore=$(jq -r '.riskScoreCard.bizCriticalityScore' result.json | cut -d'/' -f2)
-            export dataScore=$(jq -r '.riskScoreCard.dataClassScore' result.json | cut -d'/' -f2)
-            export accessScore=$(jq -r '.riskScoreCard.accessScore' result.json | cut -d'/' -f2)
-            export vulnScore=$(jq -r '.riskScoreCard.openVulnScore' result.json | cut -d'/' -f2)
-            export changeScore=$(jq -r '.riskScoreCard.changeSignificanceScore' result.json | cut -d'/' -f2)
+            echo "Buisness Criticality Score - $(jq -r '.Data.Prescription.RiskScore.BusinessCriticalityScore' io_state.json)"
+            echo "Data Class Score - $(jq -r 'Data.Prescription.RiskScore.DataClassScore' io_state.json)"
+            echo "Access Score - $(jq -r 'Data.Prescription.RiskScore.AccessScore' io_state.json)"
+            echo "Open Vulnerability Score - $(jq -r '.Data.Prescription.RiskScore.OpenVulnerabilityScore' io_state.json)"
+            echo "Change Significance Score - $(jq -r 'Data.Prescription.RiskScore.ChangeSignificanceScore' io_state.json)"
+            export bizScore=$(jq -r '.Data.Prescription.RiskScore.BusinessCriticalityScore' io_state.json | cut -d'/' -f2)
+            export dataScore=$(jq -r '.Data.Prescription.RiskScore.DataClassScore' io_state.json | cut -d'/' -f2)
+            export accessScore=$(jq -r '.Data.Prescription.RiskScore.AccessScore' io_state.json | cut -d'/' -f2)
+            export vulnScore=$(jq -r '.Data.Prescription.RiskScore.OpenVulnerabilityScore' io_state.json | cut -d'/' -f2)
+            export changeScore=$(jq -r '.Data.Prescription.RiskScore.ChangeSignificanceScore' io_state.json | cut -d'/' -f2)
             echo -n "Total Score - " && echo "$bizScore + $dataScore + $accessScore + $vulnScore + $changeScore" | bc
-        fi
-       - rm -rf synopsys-io.yml
-       - rm -rf synopsys-io.json
+        fi    
 
         
 IO_WORKFLOWENGINE:
@@ -105,58 +71,15 @@ IO_WORKFLOWENGINE:
             - $CI_PROJECT_DIR/*.sarif.json
    script:
        - >
-           if [ ! -f 'prescription.sh' ]; then
-            wget "https://raw.githubusercontent.com/synopsys-sig/io-artifacts/${WORKFLOW_ENGINE_VERSION}/prescription.sh"
+           if [ ! -f 'io_client-0.1.487' ]; then
+              wget http://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/io_client/0.1.487/io_client-0.1.487.zip
+              unzip -o io_client-0.1.487.zip
            fi  
-       - sed -i -e 's/\r$//' prescription.sh
-       - chmod +x prescription.sh 
-       - ./prescription.sh 
-        --stage="WORKFLOW" 
-        --persona=$PERSONA 
-        --io.url=$IO_SERVER_URL 
-        --io.token=$IO_ACCESS_TOKEN 
-        --io.manifest.url=$IO_MANIFEST_URL 
-        --manifest.type=$MANIFEST_TYPE 
-        --asset.id=$ASSET_ID 
-        --workflow.url=$WORKFLOW_ENGINE_SERVER_URL 
-        --workflow.version=$WORKFLOW_ENGINE_VERSION 
-        --polaris.project.name=$POLARIS_PROJECT_NAME 
-        --polaris.url=$POLARIS_SERVER_URL 
-        --polaris.token=$POLARIS_ACCESS_TOKEN 
-        --blackduck.project.name="$BLACKDUCK_PROJECT_NAME" 
-        --blackduck.url=$BLACKDUCK_SERVER_URL 
-        --blackduck.api.token=$BLACKDUCK_ACCESS_TOKEN 
-        --jira.api.url=$JIRA_URL 
-        --jira.project.name=$JIRA_PROJECT_KEY 
-        --jira.issues.query=$JIRA_ISSUES_QUERY 
-        --jira.username=$JIRA_USERNAME 
-        --jira.auth.token=$JIRA_AUTH_TOKEN 
-        --jira.assignee=$JIRA_ASSIGNEE 
-        --jira.enable=$ENABLE_JIRA 
-        --rally.api.url=$RALLY_URL 
-        --rally.project.name=$RALLY_PROJECT_KEY 
-        --rally.assignee=$RALLY_ASSIGNEE 
-        --rally.auth.token=$RALLY_AUTH_TOKEN 
-        --IS_SAST_ENABLED=$IS_SAST_ENABLED 
-        --IS_SCA_ENABLED=$IS_SCA_ENABLED 
-        --IS_DAST_ENABLED=$IS_DAST_ENABLED 
-        --slack.channel.id=$SLACK_CHANNEL_ID 
-        --slack.token=$SLACK_TOKEN 
-        --msteams.webhook.url=$MSTEAMS_WEBHOOK_URL 
-        --coverity.url=$COVERITY_SERVER_URL 
-        --coverity.stream=$COVERITY_STREAM 
-        --coverity.username=$COVERITY_USERNAME 
-        --coverity.password=$COVERITY_PASSWORD 
-        ${ADDITIONALARGS}
-       - echo "Triggering WorkFlowEngine "
-       - >
-           if [ $MANIFEST_TYPE == "yml" ]; then
-             java -jar WorkflowClient.jar --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.yml
-           elif [ $MANIFEST_TYPE == "json" ]; then
-             java -jar WorkflowClient.jar --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.json
-           fi 
+       - chmod +x io_client-0.1.487/macosx/bin/io
+       - export SYNOPSYS_IO_Polaris_Enabled=true
+       - io_client-0.1.487/macosx/bin/io --stage workflow --state io_state.json
        - |
-        echo "========================== IO WorkflowEngine Summary ============================"
-        echo "Breaker Status - $(jq -r '.breaker.status' wf-output.json)"
+        echo "========================== IO WorkflowEngine Summary ============================" 
+        echo "Breaker Status - $(jq -r '.breaker.status' wf-output.json)"    
        - rm -rf synopsys-io.yml
        - rm -rf synopsys-io.json
