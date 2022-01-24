@@ -22,14 +22,19 @@ IO:
       paths:
           - $CI_PROJECT_DIR/scans.env
           - $CI_PROJECT_DIR/io_state.json
-          - $CI_PROJECT_DIR/io_client-0.1.487
+          - $CI_PROJECT_DIR/io_client-${SYNOPSYS_IO_Workflow_Engine_Version}
+   cache:
+      key: io_${SYNOPSYS_IO_Workflow_Engine_Version}
+      paths:
+        - $CI_PROJECT_DIR/io_client-${SYNOPSYS_IO_Workflow_Engine_Version}
    script:
-       - rm -rf io_client-0.1.487
-       - rm -f io_client-0.1.487.zip
-       - wget http://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/io_client/0.1.487/io_client-0.1.487.zip
-       - unzip -o io_client-0.1.487.zip
-       - chmod +x io_client-0.1.487/macosx/bin/io
-       - io_client-0.1.487/macosx/bin/io --stage io
+       - >
+           if [ ! -d 'io_client-${SYNOPSYS_IO_Workflow_Engine_Version}' ]; then
+              wget http://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/io_client/${SYNOPSYS_IO_Workflow_Engine_Version}/io_client-${SYNOPSYS_IO_Workflow_Engine_Version}.zip
+              unzip -o io_client-${SYNOPSYS_IO_Workflow_Engine_Version}.zip
+           fi 
+       - chmod +x io_client-${SYNOPSYS_IO_Workflow_Engine_Version}/${SYNOPSYS_IO_Os_Type}/bin/io
+       - io_client-${SYNOPSYS_IO_Workflow_Engine_Version}/${SYNOPSYS_IO_Os_Type}/bin/io --stage io
        - IS_SAST_ENABLED=$(jq -r '.Data.Prescription.Security.Activities.Sast.Enabled' io_state.json)
        - IS_SCA_ENABLED=$(jq -r '.Data.Prescription.Security.Activities.Sca.Enabled' io_state.json)
        - |
@@ -71,13 +76,13 @@ IO_WORKFLOWENGINE:
             - $CI_PROJECT_DIR/*.sarif.json
    script:
        - >
-           if [ ! -f 'io_client-0.1.487' ]; then
-              wget http://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/io_client/0.1.487/io_client-0.1.487.zip
-              unzip -o io_client-0.1.487.zip
+           if [ ! -d 'io_client-${SYNOPSYS_IO_Workflow_Engine_Version}' ]; then
+              wget http://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/io_client/${SYNOPSYS_IO_Workflow_Engine_Version}/io_client-${SYNOPSYS_IO_Workflow_Engine_Version}.zip
+              unzip -o io_client-${SYNOPSYS_IO_Workflow_Engine_Version}.zip
            fi  
-       - chmod +x io_client-0.1.487/macosx/bin/io
+       - chmod +x io_client-${SYNOPSYS_IO_Workflow_Engine_Version}/${SYNOPSYS_IO_Os_Type}/bin/io
        - export SYNOPSYS_IO_Polaris_Enabled=true
-       - io_client-0.1.487/macosx/bin/io --stage workflow --state io_state.json
+       - io_client-${SYNOPSYS_IO_Workflow_Engine_Version}/${SYNOPSYS_IO_Os_Type}/bin/io --stage workflow --state io_state.json
        - |
         echo "========================== IO WorkflowEngine Summary ============================" 
         echo "Breaker Status - $(jq -r '.breaker.status' wf-output.json)"    
