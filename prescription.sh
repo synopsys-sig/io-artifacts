@@ -374,54 +374,81 @@ function loadWorkflow() {
         fi
 
         scandate_json="$scandate_json\"activities\":{"
-
+        prevExists=false
         if [ "$is_sast_enabled" = true ] ; then
-           scandate_json="$scandate_json\"sast\": {\"lastScanDate\": \"${curr_date}\"}"
+            scandate_json="$scandate_json\"sast\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
         if [ "$is_sastplusm_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
            scandate_json="$scandate_json\"sastplusm\": {\"lastScanDate\": \"${curr_date}\"}"
+           prevExists=true
         fi
 
         if [ "$is_sca_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
-           scandate_json="$scandate_json\"sca\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"sca\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
         if [ "$is_dast_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
-           scandate_json="$scandate_json\"dast\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"dast\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
         if [ "$is_dastplusm_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
-           scandate_json="$scandate_json\"dastplusm\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"dastplusm\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
         if [ "$is_threatmodel_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
-           scandate_json="$scandate_json\"threatmodel\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"threatmodel\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
         if [ "$is_network_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
-           scandate_json="$scandate_json\"network\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"network\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
         if [ "$is_cloud_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
-           scandate_json="$scandate_json\"cloud\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"cloud\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
         if [ "$is_infra_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
-           scandate_json="$scandate_json\"infra\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"infra\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
         if [ "$is_imagescan_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
-           scandate_json="$scandate_json\"imagescan\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"imagescan\": {\"lastScanDate\": \"${curr_date}\"}"
         fi
 
         scandate_json="$scandate_json}}"
