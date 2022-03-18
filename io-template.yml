@@ -94,7 +94,7 @@ IO:
         echo "Is ${IS_SAST_ENABLED_LN}(SAST) Enabled - ${IS_SAST_ENABLED}"
         echo "Is ${IS_SCA_ENABLED_LN}(SCA) Enabled - ${IS_SCA_ENABLED}"
         echo "Is ${IS_IMAGESCAN_ENABLED_LN}(IMAGESCAN) Enabled - ${IS_IMAGESCAN_ENABLED}"
-        echo "IS ${IS_SASTPLUSM_ENABLED_LN}(SASTPLUSM) Enabled - ${IS_SASTPLUSM_ENABLED}"
+        echo "Is ${IS_SASTPLUSM_ENABLED_LN}(SASTPLUSM) Enabled - ${IS_SASTPLUSM_ENABLED}"
         echo "Is ${IS_DAST_ENABLED_LN}(DAST) Enabled - ${IS_DAST_ENABLED}"
         echo "Is ${IS_DASTPLUSM_ENABLED_LN}(DASTPLUSM) Enabled - ${IS_DASTPLUSM_ENABLED}"
         echo "Is ${IS_CLOUD_ENABLED_LN}(CLOUD) Enabled - ${IS_CLOUD_ENABLED}"
