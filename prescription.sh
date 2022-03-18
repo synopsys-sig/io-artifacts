@@ -43,6 +43,17 @@ run() {
 }
 
 function generateYML () {
+    is_sast_enabled=false
+    is_sastplusm_enabled=false
+    is_sca_enabled=false
+    is_dast_enabled=false
+    is_dastplusm_enabled=false
+    is_threatmodel_enabled=false
+    is_network_enabled=false
+    is_cloud_enabled=false
+    is_infra_enabled=false
+    is_imagescan_enabled=false
+
     for i in "$@"; do
         case "$i" in
         --io.url=*) io_url="${i#*=}" ;;
@@ -86,12 +97,10 @@ function generateYML () {
         --github.token=*) github_access_token="${i#*=}" ;;
         --gitlab.url=*) gitlab_url="${i#*=}" ;;			      #gitlab
         --gitlab.token=*) gitlab_token="${i#*=}" ;;
-        --IS_SAST_ENABLED=*) is_sast_enabled="${i#*=}" ;;             #polaris
-        --polaris.project.name=*) polaris_project_name="${i#*=}" ;;
+        --polaris.project.name=*) polaris_project_name="${i#*=}" ;;  #polaris
         --polaris.url=*) polaris_server_url="${i#*=}" ;;
         --polaris.token=*) polaris_access_token="${i#*=}" ;;
-        --IS_SCA_ENABLED=*) is_sca_enabled="${i#*=}" ;;                 #blackduck
-        --blackduck.project.name=*) blackduck_project_name="${i#*=}" ;;
+        --blackduck.project.name=*) blackduck_project_name="${i#*=}" ;; #blackduck
         --blackduck.url=*) blackduck_server_url="${i#*=}" ;;
         --blackduck.api.token=*) blackduck_access_token="${i#*=}" ;;
         --coverity.url=*) coverity_server_url="${i#*=}" ;;				#coverity
@@ -102,11 +111,20 @@ function generateYML () {
         --codedx.api.key=*) codedx_api_key="${i#*=}" ;;
         --codedx.project.id=*) codedx_project_id="${i#*=}" ;;
         --codedx.min.risk.score=*) codedx_min_risk_score="${i#*=}" ;;
-        --IS_DAST_ENABLED=*) is_dast_enabled="${i#*=}" ;;                 #seeker
-        --seeker.project.name=*) seeker_project_name="${i#*=}" ;;
+        --seeker.project.name=*) seeker_project_name="${i#*=}" ;;  #seeker
         --seeker.url=*) seeker_server_url="${i#*=}" ;;
         --seeker.token=*) seeker_access_token="${i#*=}" ;;
         --persona=*) persona="${i#*=}" ;;
+        --IS_SAST_ENABLED=*) is_sast_enabled="${i#*=}" ;;
+        --IS_SASTPLUSM_ENABLED=*) is_sastplusm_enabled="${i#*=}" ;;
+        --IS_SCA_ENABLED=*) is_sca_enabled="${i#*=}" ;;
+        --IS_DAST_ENABLED=*) is_dast_enabled="${i#*=}" ;;
+        --IS_DASTPLUSM_ENABLED=*) is_dastplusm_enabled="${i#*=}" ;;
+        --IS_THREATMODEL_ENABLED=*) is_threatmodel_enabled="${i#*=}" ;;
+        --IS_NETWORK_ENABLED=*) is_network_enabled="${i#*=}" ;;
+        --IS_CLOUD_ENABLED=*) is_cloud_enabled="${i#*=}" ;;
+        --IS_INFRA_ENABLED=*) is_infra_enabled="${i#*=}" ;;
+        --IS_IMAGESCAN_ENABLED=*) is_imagescan_enabled="${i#*=}" ;;
         *) ;;
         esac
     done
@@ -356,17 +374,81 @@ function loadWorkflow() {
         fi
 
         scandate_json="$scandate_json\"activities\":{"
-
+        prevExists=false
         if [ "$is_sast_enabled" = true ] ; then
-           scandate_json="$scandate_json\"sast\": {\"lastScanDate\": \"${curr_date}\"}"
+            scandate_json="$scandate_json\"sast\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
         fi
 
-        if [ "$is_sca_enabled" = true ] && [ "$is_sast_enabled" = true ] ; then
-           scandate_json="$scandate_json,"
+        if [ "$is_sastplusm_enabled" = true ] ; then
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+           scandate_json="$scandate_json\"sastplusm\": {\"lastScanDate\": \"${curr_date}\"}"
+           prevExists=true
         fi
 
         if [ "$is_sca_enabled" = true ] ; then
-           scandate_json="$scandate_json\"sca\": {\"lastScanDate\": \"${curr_date}\"}"
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"sca\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
+        fi
+
+        if [ "$is_dast_enabled" = true ] ; then
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"dast\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
+        fi
+
+        if [ "$is_dastplusm_enabled" = true ] ; then
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"dastplusm\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
+        fi
+
+        if [ "$is_threatmodel_enabled" = true ] ; then
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"threatmodel\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
+        fi
+
+        if [ "$is_network_enabled" = true ] ; then
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"network\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
+        fi
+
+        if [ "$is_cloud_enabled" = true ] ; then
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"cloud\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
+        fi
+
+        if [ "$is_infra_enabled" = true ] ; then
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"infra\": {\"lastScanDate\": \"${curr_date}\"}"
+            prevExists=true
+        fi
+
+        if [ "$is_imagescan_enabled" = true ] ; then
+            if [ "$prevExists" = true ] ; then
+                scandate_json="$scandate_json,"
+            fi
+            scandate_json="$scandate_json\"imagescan\": {\"lastScanDate\": \"${curr_date}\"}"
         fi
 
         scandate_json="$scandate_json}}"

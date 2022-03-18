@@ -2,16 +2,13 @@
 
 variables:  
   ASSET_ID: $CI_PROJECT_PATH
-  WORKFLOW_ENGINE_VERSION: "2021.12.4"
+  WORKFLOW_ENGINE_VERSION: "2022.4.0-alpha-0.2"
   POLARIS_PROJECT_NAME: $CI_PROJECT_NAME
   BLACKDUCK_PROJECT_NAME: $CI_PROJECT_NAME:$BLACKDUCK_PROJECT_VERSION 
   SCM_OWNER: $CI_PROJECT_NAMESPACE
   SCM_REPO_NAME: $CI_PROJECT_NAME
   SCM_BRANCH_NAME : $CI_COMMIT_BRANCH
   GITLAB_HOST_URL: $CI_SERVER_URL
-  IS_SAST_ENABLED: "false"
-  IS_SCA_ENABLED: "false"
-  IS_DAST_ENABLED: "false"
   MANIFEST_TYPE: "yml"
     
 IO:
@@ -61,25 +58,49 @@ IO:
         --jira.auth.token=$JIRA_AUTH_TOKEN 
         --jira.assignee=$JIRA_ASSIGNEE 
         --jira.enable=$ENABLE_JIRA 
-        --IS_SAST_ENABLED=$IS_SAST_ENABLED 
-        --IS_SCA_ENABLED=$IS_SCA_ENABLED 
-        --IS_DAST_ENABLED=$IS_DAST_ENABLED 
         ${ADDITIONALARGS}
-       - IS_SAST_ENABLED=$(jq -r '.security.activities.sast.enabled' result.json)
-       - IS_SCA_ENABLED=$(jq -r '.security.activities.sca.enabled' result.json)
-       - |
-        if [ -z "$IS_SAST_ENABLED" ]; then
-          IS_SAST_ENABLED=false
-        fi
-        if [ -z "$IS_SCA_ENABLED" ]; then
-          IS_SCA_ENABLED=false
-        fi
+       - IS_SAST_ENABLED=$(jq -r '.security.activities.sast.enabled // false' result.json)
+       - IS_SASTPLUSM_ENABLED=$(jq -r '.security.activities.sastplusm.enabled // false' result.json)
+       - IS_SCA_ENABLED=$(jq -r '.security.activities.sca.enabled // false' result.json)
+       - IS_DAST_ENABLED=$(jq -r '.security.activities.dast.enabled // false' result.json)
+       - IS_DASTPLUSM_ENABLED=$(jq -r '.security.activities.dastplusm.enabled // false' result.json)
+       - IS_THREATMODEL_ENABLED=$(jq -r '.security.activities.THREATMODEL.enabled // false' result.json)
+       - IS_NETWORK_ENABLED=$(jq -r '.security.activities.NETWORK.enabled // false' result.json)
+       - IS_CLOUD_ENABLED=$(jq -r '.security.activities.CLOUD.enabled // false' result.json)
+       - IS_INFRA_ENABLED=$(jq -r '.security.activities.INFRA.enabled // false' result.json)
+       - IS_IMAGESCAN_ENABLED=$(jq -r '.security.activities.imageScan.enabled // false' result.json)
+       - IS_SAST_ENABLED_LN=$(jq -r '.security.activities.sast.longName // "Static Scan"' result.json)
+       - IS_SASTPLUSM_ENABLED_LN=$(jq -r '.security.activities.sastplusm.longName // "Manual Code Review"' result.json)
+       - IS_SCA_ENABLED_LN=$(jq -r '.security.activities.sca.longName // "Composition Scan"' result.json)
+       - IS_DAST_ENABLED_LN=$(jq -r '.security.activities.dast.longName // "Dynamic Scan"' result.json)
+       - IS_DASTPLUSM_ENABLED_LN=$(jq -r '.security.activities.dastplusm.longName // "Penetration Test"' result.json)
+       - IS_THREATMODEL_ENABLED_LN=$(jq -r '.security.activities.THREATMODEL.longName // "Threat Model"' result.json)
+       - IS_NETWORK_ENABLED_LN=$(jq -r '.security.activities.NETWORK.longName // "Network Test"' result.json)
+       - IS_CLOUD_ENABLED_LN=$(jq -r '.security.activities.CLOUD.longName // "Cloud Configuration Review"' result.json)
+       - IS_INFRA_ENABLED_LN=$(jq -r '.security.activities.INFRA.longName // "Infrastructure Review"' result.json)
+       - IS_IMAGESCAN_ENABLED_LN=$(jq -r '.security.activities.imageScan.longName // "Container Scan"' result.json)
        - echo "IS_SAST_ENABLED=${IS_SAST_ENABLED}" >> scans.env
+       - echo "IS_SASTPLUSM_ENABLED=${IS_SASTPLUSM_ENABLED}" >> scans.env
        - echo "IS_SCA_ENABLED=${IS_SCA_ENABLED}" >> scans.env
+       - echo "IS_DAST_ENABLED=${IS_DAST_ENABLED}" >> scans.env
+       - echo "IS_DASTPLUSM_ENABLED=${IS_DASTPLUSM_ENABLED}" >> scans.env
+       - echo "IS_THREATMODEL_ENABLED=${IS_THREATMODEL_ENABLED}" >> scans.env
+       - echo "IS_NETWORK_ENABLED=${IS_NETWORK_ENABLED}" >> scans.env
+       - echo "IS_CLOUD_ENABLED=${IS_CLOUD_ENABLED}" >> scans.env
+       - echo "IS_INFRA_ENABLED=${IS_INFRA_ENABLED}" >> scans.env
+       - echo "IS_IMAGESCAN_ENABLED=${IS_IMAGESCAN_ENABLED}" >> scans.env
        - |
         echo "================================== IO Prescription ======================================="
-        echo "Is SAST Enabled - ${IS_SAST_ENABLED}"
-        echo "Is SCA Enabled - ${IS_SCA_ENABLED}"
+        echo "Is ${IS_SAST_ENABLED_LN}(SAST) Enabled - ${IS_SAST_ENABLED}"
+        echo "Is ${IS_SCA_ENABLED_LN}(SCA) Enabled - ${IS_SCA_ENABLED}"
+        echo "Is ${IS_IMAGESCAN_ENABLED_LN}(IMAGESCAN) Enabled - ${IS_IMAGESCAN_ENABLED}"
+        echo "IS ${IS_SASTPLUSM_ENABLED_LN}(SASTPLUSM) Enabled - ${IS_SASTPLUSM_ENABLED}"
+        echo "Is ${IS_DAST_ENABLED_LN}(DAST) Enabled - ${IS_DAST_ENABLED}"
+        echo "Is ${IS_DASTPLUSM_ENABLED_LN}(DASTPLUSM) Enabled - ${IS_DASTPLUSM_ENABLED}"
+        echo "Is ${IS_CLOUD_ENABLED_LN}(CLOUD) Enabled - ${IS_CLOUD_ENABLED}"
+        echo "Is ${IS_THREATMODEL_ENABLED_LN}(THREATMODEL) Enabled - ${IS_THREATMODEL_ENABLED}"
+        echo "Is ${IS_INFRA_ENABLED_LN}(INFRA) Enabled - ${IS_INFRA_ENABLED}"
+        echo "Is ${IS_NETWORK_ENABLED_LN}(NETWORK) Enabled - ${IS_NETWORK_ENABLED}"
         if [ $PERSONA == "devsecops" ]; then
             echo "==================================== IO Risk Score ======================================="
             echo "Business Criticality Score - $(jq -r '.riskScoreCard.bizCriticalityScore' result.json)"
@@ -138,8 +159,15 @@ IO_WORKFLOWENGINE:
         --rally.assignee=$RALLY_ASSIGNEE 
         --rally.auth.token=$RALLY_AUTH_TOKEN 
         --IS_SAST_ENABLED=$IS_SAST_ENABLED 
+        --IS_SASTPLUSM_ENABLED=$IS_SASTPLUSM_ENABLED 
         --IS_SCA_ENABLED=$IS_SCA_ENABLED 
         --IS_DAST_ENABLED=$IS_DAST_ENABLED 
+        --IS_DASTPLUSM_ENABLED=$IS_DASTPLUSM_ENABLED 
+        --IS_THREATMODEL_ENABLED=$IS_THREATMODEL_ENABLED 
+        --IS_NETWORK_ENABLED=$IS_NETWORK_ENABLED 
+        --IS_CLOUD_ENABLED=$IS_CLOUD_ENABLED 
+        --IS_INFRA_ENABLED=$IS_INFRA_ENABLED 
+        --IS_IMAGESCAN_ENABLED=$IS_IMAGESCAN_ENABLED 
         --slack.channel.id=$SLACK_CHANNEL_ID 
         --slack.token=$SLACK_TOKEN 
         --msteams.webhook.url=$MSTEAMS_WEBHOOK_URL 
