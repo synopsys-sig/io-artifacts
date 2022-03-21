@@ -79,6 +79,7 @@ IO:
        - IS_CLOUD_ENABLED_LN=$(jq -r '.security.activities.CLOUD.longName // "Cloud Configuration Review"' result.json)
        - IS_INFRA_ENABLED_LN=$(jq -r '.security.activities.INFRA.longName // "Infrastructure Review"' result.json)
        - IS_IMAGESCAN_ENABLED_LN=$(jq -r '.security.activities.imageScan.longName // "Container Scan"' result.json)
+       - RUN_ID=$(jq -r '.runId // ""' result.json)
        - echo "IS_SAST_ENABLED=${IS_SAST_ENABLED}" >> scans.env
        - echo "IS_SASTPLUSM_ENABLED=${IS_SASTPLUSM_ENABLED}" >> scans.env
        - echo "IS_SCA_ENABLED=${IS_SCA_ENABLED}" >> scans.env
@@ -89,6 +90,7 @@ IO:
        - echo "IS_CLOUD_ENABLED=${IS_CLOUD_ENABLED}" >> scans.env
        - echo "IS_INFRA_ENABLED=${IS_INFRA_ENABLED}" >> scans.env
        - echo "IS_IMAGESCAN_ENABLED=${IS_IMAGESCAN_ENABLED}" >> scans.env
+       - echo "RUN_ID=${RUN_ID}" >> scans.env
        - |
         echo "================================== IO Prescription ======================================="
         echo "Is ${IS_SAST_ENABLED_LN}(SAST) Enabled - ${IS_SAST_ENABLED}"
@@ -179,9 +181,9 @@ IO_WORKFLOWENGINE:
        - echo "Triggering WorkFlowEngine "
        - >
            if [ $MANIFEST_TYPE == "yml" ]; then
-             java -jar WorkflowClient.jar --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.yml
+             java -jar WorkflowClient.jar --ioiq.url=$IO_SERVER_URL --ioiq.token=$IO_ACCESS_TOKEN --run.id=$RUN_ID --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.yml
            elif [ $MANIFEST_TYPE == "json" ]; then
-             java -jar WorkflowClient.jar --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.json
+             java -jar WorkflowClient.jar --ioiq.url=$IO_SERVER_URL --ioiq.token=$IO_ACCESS_TOKEN --run.id=$RUN_ID --workflowengine.url=$WORKFLOW_ENGINE_SERVER_URL --io.manifest.path=synopsys-io.json
            fi 
        - |
         echo "========================== IO WorkflowEngine Summary ============================"
