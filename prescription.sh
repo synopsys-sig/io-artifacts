@@ -416,7 +416,7 @@ function loadWorkflow() {
             if [ "$prevExists" = true ] ; then
                 scandate_json="$scandate_json,"
             fi
-            scandate_json="$scandate_json\"threatmodel\": {\"lastScanDate\": \"${curr_date}\"}"
+            scandate_json="$scandate_json\"THREATMODEL\": {\"lastScanDate\": \"${curr_date}\"}"
             prevExists=true
         fi
 
@@ -424,7 +424,7 @@ function loadWorkflow() {
             if [ "$prevExists" = true ] ; then
                 scandate_json="$scandate_json,"
             fi
-            scandate_json="$scandate_json\"network\": {\"lastScanDate\": \"${curr_date}\"}"
+            scandate_json="$scandate_json\"NETWORK\": {\"lastScanDate\": \"${curr_date}\"}"
             prevExists=true
         fi
 
@@ -432,7 +432,7 @@ function loadWorkflow() {
             if [ "$prevExists" = true ] ; then
                 scandate_json="$scandate_json,"
             fi
-            scandate_json="$scandate_json\"cloud\": {\"lastScanDate\": \"${curr_date}\"}"
+            scandate_json="$scandate_json\"CLOUD\": {\"lastScanDate\": \"${curr_date}\"}"
             prevExists=true
         fi
 
@@ -440,7 +440,7 @@ function loadWorkflow() {
             if [ "$prevExists" = true ] ; then
                 scandate_json="$scandate_json,"
             fi
-            scandate_json="$scandate_json\"infra\": {\"lastScanDate\": \"${curr_date}\"}"
+            scandate_json="$scandate_json\"INFRA\": {\"lastScanDate\": \"${curr_date}\"}"
             prevExists=true
         fi
 
@@ -448,7 +448,7 @@ function loadWorkflow() {
             if [ "$prevExists" = true ] ; then
                 scandate_json="$scandate_json,"
             fi
-            scandate_json="$scandate_json\"imagescan\": {\"lastScanDate\": \"${curr_date}\"}"
+            scandate_json="$scandate_json\"imageScan\": {\"lastScanDate\": \"${curr_date}\"}"
         fi
 
         scandate_json="$scandate_json}}"
