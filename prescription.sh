@@ -89,6 +89,9 @@ function generateYML () {
         --bitbucket.commit.id=*) bitbucket_commit_id="${i#*=}" ;;
         --bitbucket.username=*) bitbucket_username="${i#*=}" ;;
         --bitbucket.password=*) bitbucket_password="${i#*=}" ;;
+        --bitbucket.host.type=*) bitbucket_host_type="${i#*=}" ;;
+        --bitbucket.api.version=*) bitbucket_api_version="${i#*=}" ;;
+        --bitbucket.project.key=*) bitbucket_project_key="${i#*=}" ;;
         --github.owner.name=*) github_owner_name="${i#*=}" ;;         #github
         --github.repository.name=*) github_repo_name="${i#*=}" ;;
         --github.ref=*) github_ref="${i#*=}" ;;
@@ -230,6 +233,9 @@ function generateYML () {
 	    s~<<BITBUCKET_COMMIT_ID>>~$bitbucket_commit_id~g; \
 	    s~<<BITBUCKET_USERNAME>>~$bitbucket_username~g; \
 	    s~<<BITBUCKET_PASSWORD>>~$bitbucket_password~g; \
+	    s~<<BITBUCKET_HOST_TYPE>>~$bitbucket_host_type~g; \
+	    s~<<BITBUCKET_API_VERSION>>~$bitbucket_api_version~g; \
+	    s~<<BITBUCKET_PROJECT_KEY>>~$bitbucket_project_key~g; \
 	    s~<<GITHUB_OWNER_NAME>>~$github_owner_name~g; \
 	    s~<<GITHUB_REPO_NAME>>~$github_repo_name~g; \
 	    s~<<GITHUB_REF>>~$github_ref~g; \
@@ -291,6 +297,9 @@ function generateYML () {
 	    s~<<BITBUCKET_COMMIT_ID>>~$bitbucket_commit_id~g; \
 	    s~<<BITBUCKET_USERNAME>>~$bitbucket_username~g; \
 	    s~<<BITBUCKET_PASSWORD>>~$bitbucket_password~g; \
+	    s~<<BITBUCKET_HOST_TYPE>>~$bitbucket_host_type~g; \
+	    s~<<BITBUCKET_API_VERSION>>~$bitbucket_api_version~g; \
+	    s~<<BITBUCKET_PROJECT_KEY>>~$bitbucket_project_key~g; \
 	    s~<<GITHUB_OWNER_NAME>>~$github_owner_name~g; \
 	    s~<<GITHUB_REPO_NAME>>~$github_repo_name~g; \
 	    s~<<GITHUB_REF>>~$github_ref~g; \
