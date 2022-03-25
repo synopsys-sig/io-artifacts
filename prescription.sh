@@ -131,6 +131,46 @@ function generateYML () {
         *) ;;
         esac
     done
+
+    if [ -z "$is_sast_enabled" ]; then
+        is_sast_enabled=false
+    fi
+
+    if [ -z "$is_sastplusm_enabled" ]; then
+        is_sastplusm_enabled=false
+    fi
+
+    if [ -z "$is_sca_enabled" ]; then
+        is_sca_enabled=false
+    fi
+
+    if [ -z "$is_dast_enabled" ]; then
+        is_dast_enabled=false
+    fi
+
+    if [ -z "$is_dastplusm_enabled" ]; then
+        is_dastplusm_enabled=false
+    fi
+
+    if [ -z "$is_threatmodel_enabled" ]; then
+        is_threatmodel_enabled=false
+    fi
+
+    if [ -z "$is_network_enabled" ]; then
+        is_network_enabled=false
+    fi
+
+    if [ -z "$is_cloud_enabled" ]; then
+        is_cloud_enabled=false
+    fi
+
+    if [ -z "$is_infra_enabled" ]; then
+        is_infra_enabled=false
+    fi
+
+    if [ -z "$is_imagescan_enabled" ]; then
+        is_imagescan_enabled=false
+    fi
     
     validate_values "IO_SERVER_URL" "$io_url"
     validate_values "IO_SERVER_TOKEN" "$io_token"
