@@ -90,6 +90,7 @@ function generateYML () {
         --bitbucket.username=*) bitbucket_username="${i#*=}" ;;
         --bitbucket.password=*) bitbucket_password="${i#*=}" ;;
         --bitbucket.host.type=*) bitbucket_host_type="${i#*=}" ;;
+        --bitbucket.api.url=*) bitbucket_api_url="${i#*=}" ;;
         --bitbucket.api.version=*) bitbucket_api_version="${i#*=}" ;;
         --bitbucket.project.key=*) bitbucket_project_key="${i#*=}" ;;
         --github.owner.name=*) github_owner_name="${i#*=}" ;;         #github
@@ -274,6 +275,7 @@ function generateYML () {
 	    s~<<BITBUCKET_USERNAME>>~$bitbucket_username~g; \
 	    s~<<BITBUCKET_PASSWORD>>~$bitbucket_password~g; \
 	    s~<<BITBUCKET_HOST_TYPE>>~$bitbucket_host_type~g; \
+	    s~<<BITBUCKET_API_URL>>~$bitbucket_api_url~g; \
 	    s~<<BITBUCKET_API_VERSION>>~$bitbucket_api_version~g; \
 	    s~<<BITBUCKET_PROJECT_KEY>>~$bitbucket_project_key~g; \
 	    s~<<GITHUB_OWNER_NAME>>~$github_owner_name~g; \
@@ -338,6 +340,7 @@ function generateYML () {
 	    s~<<BITBUCKET_USERNAME>>~$bitbucket_username~g; \
 	    s~<<BITBUCKET_PASSWORD>>~$bitbucket_password~g; \
 	    s~<<BITBUCKET_HOST_TYPE>>~$bitbucket_host_type~g; \
+	    s~<<BITBUCKET_API_URL>>~$bitbucket_api_url~g; \
 	    s~<<BITBUCKET_API_VERSION>>~$bitbucket_api_version~g; \
 	    s~<<BITBUCKET_PROJECT_KEY>>~$bitbucket_project_key~g; \
 	    s~<<GITHUB_OWNER_NAME>>~$github_owner_name~g; \
