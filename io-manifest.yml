@@ -63,6 +63,10 @@ connectors:
     authtoken: <<RALLY_AUTH_TOKEN>>
 - connector_name: bitbucket
   fields:
+    hostType: <<BITBUCKET_HOST_TYPE>>
+    apiUrl: <<BITBUCKET_API_URL>>
+    apiVersion: <<BITBUCKET_API_VERSION>>
+    projectKey: <<BITBUCKET_PROJECT_KEY>>
     workspace_name: <<SCM_OWNER>>
     repository_name: <<SCM_REPO_NAME>>
     commit_id: <<BITBUCKET_COMMIT_ID>>
