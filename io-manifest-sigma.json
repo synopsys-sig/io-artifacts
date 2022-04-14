@@ -155,6 +155,7 @@
       "enabled": false,
       "fields": {
         "project_name": "<<POLARIS_PROJECT_NAME>>",
+        "branch_name": "<<POLARIS_BRANCH_NAME>>",
         "instance_url": "<<POLARIS_SERVER_URL>>",
         "auth_token": "<<POLARIS_ACCESS_TOKEN>>"
       }

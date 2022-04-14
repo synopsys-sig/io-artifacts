@@ -37,6 +37,7 @@ IO:
         --workflow.url=$WORKFLOW_ENGINE_SERVER_URL 
         --workflow.version=$WORKFLOW_ENGINE_VERSION 
         --polaris.project.name=$POLARIS_PROJECT_NAME 
+        --polaris.branch.name=$POLARIS_BRANCH_NAME 
         --polaris.url=$POLARIS_SERVER_URL 
         --polaris.token=$POLARIS_ACCESS_TOKEN 
         --blackduck.project.name="$BLACKDUCK_PROJECT_NAME" 
@@ -144,6 +145,7 @@ IO_WORKFLOWENGINE:
         --workflow.url=$WORKFLOW_ENGINE_SERVER_URL 
         --workflow.version=$WORKFLOW_ENGINE_VERSION 
         --polaris.project.name=$POLARIS_PROJECT_NAME 
+        --polaris.branch.name=$POLARIS_BRANCH_NAME 
         --polaris.url=$POLARIS_SERVER_URL 
         --polaris.token=$POLARIS_ACCESS_TOKEN 
         --blackduck.project.name="$BLACKDUCK_PROJECT_NAME" 

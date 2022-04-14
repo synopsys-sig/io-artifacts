@@ -102,6 +102,7 @@ function generateYML () {
         --gitlab.url=*) gitlab_url="${i#*=}" ;;			      #gitlab
         --gitlab.token=*) gitlab_token="${i#*=}" ;;
         --polaris.project.name=*) polaris_project_name="${i#*=}" ;;  #polaris
+        --polaris.branch.name=*) polaris_branch_name="${i#*=}" ;;
         --polaris.url=*) polaris_server_url="${i#*=}" ;;
         --polaris.token=*) polaris_access_token="${i#*=}" ;;
         --blackduck.project.name=*) blackduck_project_name="${i#*=}" ;; #blackduck
@@ -287,6 +288,7 @@ function generateYML () {
 	    s~<<GITLAB_HOST_URL>>~$gitlab_url~g;\
 	    s~<<GITLAB_TOKEN>>~$gitlab_token~g;\
 	    s~<<POLARIS_PROJECT_NAME>>~$polaris_project_name~g; \
+	    s~<<POLARIS_BRANCH_NAME>>~$polaris_branch_name~g; \
 	    s~<<POLARIS_SERVER_URL>>~$polaris_server_url~g; \
 	    s~<<POLARIS_ACCESS_TOKEN>>~$polaris_access_token~g; \
 	    s~<<BLACKDUCK_PROJECT_NAME>>~$blackduck_project_name~g; \
@@ -352,6 +354,7 @@ function generateYML () {
 	    s~<<GITLAB_HOST_URL>>~$gitlab_url~g;\
 	    s~<<GITLAB_TOKEN>>~$gitlab_token~g;\
 	    s~<<POLARIS_PROJECT_NAME>>~$polaris_project_name~g; \
+	    s~<<POLARIS_BRANCH_NAME>>~$polaris_branch_name~g; \
 	    s~<<POLARIS_SERVER_URL>>~$polaris_server_url~g; \
 	    s~<<POLARIS_ACCESS_TOKEN>>~$polaris_access_token~g; \
 	    s~<<BLACKDUCK_PROJECT_NAME>>~$blackduck_project_name~g; \
