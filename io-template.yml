@@ -180,6 +180,7 @@ IO_WORKFLOWENGINE:
         --coverity.username=$COVERITY_USERNAME 
         --coverity.password=$COVERITY_PASSWORD 
         ${ADDITIONALARGS}
+       - cat synopsys-io.json
        - echo "Triggering WorkFlowEngine "
        - >
            if [ $MANIFEST_TYPE == "yml" ]; then
@@ -191,4 +192,4 @@ IO_WORKFLOWENGINE:
         echo "========================== IO WorkflowEngine Summary ============================"
         echo "Breaker Status - $(jq -r '.breaker.status' wf-output.json)"
        - rm -rf synopsys-io.yml
-       - rm -rf synopsys-io.json
+      #  - rm -rf synopsys-io.json
