@@ -144,6 +144,10 @@ IO_WORKFLOWENGINE:
         --asset.id=$ASSET_ID 
         --workflow.url=$WORKFLOW_ENGINE_SERVER_URL 
         --workflow.version=$WORKFLOW_ENGINE_VERSION 
+        --scm.type="gitlab" 
+        --scm.owner=$SCM_OWNER 
+        --scm.repo.name=$SCM_REPO_NAME 
+        --scm.branch.name=$SCM_BRANCH_NAME 
         --polaris.project.name=$POLARIS_PROJECT_NAME 
         --polaris.branch.name=$POLARIS_BRANCH_NAME 
         --polaris.url=$POLARIS_SERVER_URL 
