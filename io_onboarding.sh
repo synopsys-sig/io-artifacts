@@ -16,7 +16,7 @@ for i in "$@"; do
 done
 
 if [ -z "$workflow_version" ]; then
-    workflow_version="2023.3.0"
+    workflow_version="2023.3.1"
 fi
 
 if [ -z "$manifest_type" ]; then
